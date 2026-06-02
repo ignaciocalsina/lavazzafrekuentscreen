@@ -39,21 +39,21 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="flex items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden">
-      {/* Device bezel — rotated 90° counter-clockwise to landscape */}
+      {/* Device bezel — physical landscape (rotated 90° left from the original portrait) */}
       <div
         className="relative rounded-[40px] bg-gradient-to-b from-[#e8e8e8] to-[#d4d4d4] shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
-        style={{ padding: '53px 35px 44px 35px', transform: 'rotate(-90deg)', transformOrigin: 'center' }}
+        style={{ padding: '35px 44px 35px 53px' }}
       >
         {/* Full-border status indicator */}
         <div
           className="absolute inset-[8px] rounded-[32px] border-[3px] pointer-events-none transition-colors duration-500 z-20"
           style={{ borderColor: processing ? 'hsl(145,63%,42%)' : 'white' }}
         />
-        {/* Camera dot */}
-        <div className="absolute top-[22px] left-[55px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-10" />
+        {/* Camera dot — originally top-left of portrait; now bottom-left after the 90° left rotation */}
+        <div className="absolute bottom-[55px] left-[22px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-10" />
 
-        {/* Screen area */}
-        <div className="relative w-[370px] h-[616px] rounded-[20px] overflow-hidden bg-background flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
+        {/* Screen area — landscape 616×370 */}
+        <div className="relative w-[616px] h-[370px] rounded-[20px] overflow-hidden bg-background flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
           {/* Status bar with language selector */}
           {!isAd && (
           <div className="flex items-center justify-between px-5 py-1.5 bg-muted/50 text-muted-foreground text-[10px] font-medium shrink-0">
