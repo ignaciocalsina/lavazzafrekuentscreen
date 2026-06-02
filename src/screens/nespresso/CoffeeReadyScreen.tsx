@@ -1,27 +1,19 @@
-import { useApp, BONO_WEEK_COFFEES, BONO_MONTH_COFFEES, MOCK_BUNDLE_REMAINING } from '@/context/AppContext';
+import { useApp, BONO_WEEK_COFFEES, BONO_MONTH_COFFEES } from '@/context/AppContext';
 import { CheckCircle2 } from 'lucide-react';
 import { NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeReadyScreen = () => {
-  const { goHome, orderType, paymentMethod } = useApp();
+  const { goHome, orderType } = useApp();
 
   let subtitle = 'Gracias por disfrutar de Nespresso.';
   let badge: string | null = null;
 
   if (orderType === 'bono_semanal') {
-    const left = BONO_WEEK_COFFEES - 1;
-    subtitle = `Te quedan ${left} cafés en tu bono semanal.`;
-    badge = `Bono semanal activado · ${left}/${BONO_WEEK_COFFEES}`;
+    subtitle = `Bono semanal activado: ${BONO_WEEK_COFFEES} cafés disponibles.`;
+    badge = `${BONO_WEEK_COFFEES} cafés en tu bono semanal`;
   } else if (orderType === 'bono_mensual') {
-    const left = BONO_MONTH_COFFEES - 1;
-    subtitle = `Te quedan ${left} cafés en tu bono mensual.`;
-    badge = `Bono mensual activado · ${left}/${BONO_MONTH_COFFEES}`;
-  } else if (paymentMethod === 'bundle_credit') {
-    const left = MOCK_BUNDLE_REMAINING - 1;
-    subtitle = `Te quedan ${left} cafés en tu bono semanal.`;
-    badge = `1 café descontado · ${left} restantes`;
-  } else if (paymentMethod === 'balance') {
-    subtitle = 'Pagado con tu saldo Nespresso. Gracias por disfrutar.';
+    subtitle = `Bono mensual activado: ${BONO_MONTH_COFFEES} cafés disponibles.`;
+    badge = `${BONO_MONTH_COFFEES} cafés en tu bono mensual`;
   }
 
   return (
@@ -45,7 +37,6 @@ const CoffeeReadyScreen = () => {
           FINALIZAR
         </button>
       </div>
-      
     </div>
   );
 };
