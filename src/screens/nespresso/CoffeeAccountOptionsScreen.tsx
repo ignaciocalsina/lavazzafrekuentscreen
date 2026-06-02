@@ -1,6 +1,6 @@
 import { useApp, MOCK_BALANCE, MOCK_BUNDLE_REMAINING, COFFEE_PRICE } from '@/context/AppContext';
 import { Wallet, Coffee, CreditCard, ArrowLeft, AlertCircle } from 'lucide-react';
-import { BrandFooter, NespressoLogo } from '@/components/NespressoBrand';
+import { NespressoLogo } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
 
@@ -9,7 +9,8 @@ const CoffeeAccountOptionsScreen = () => {
 
   const choose = (m: 'balance' | 'bundle_credit' | 'card') => {
     setPaymentMethod(m);
-    navigate('coffee_brewing');
+    if (m === 'card') navigate('coffee_card_pay');
+    else navigate('coffee_processing');
   };
 
   return (
@@ -81,7 +82,7 @@ const CoffeeAccountOptionsScreen = () => {
         </div>
       )}
 
-      <BrandFooter />
+      
     </div>
   );
 };

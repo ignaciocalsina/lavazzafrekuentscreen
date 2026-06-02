@@ -5,8 +5,8 @@ import CoffeePayChoiceScreen from './nespresso/CoffeePayChoiceScreen';
 import CoffeeCardPayScreen from './nespresso/CoffeeCardPayScreen';
 import CoffeeIdentifyScreen from './nespresso/CoffeeIdentifyScreen';
 import CoffeeAccountOptionsScreen from './nespresso/CoffeeAccountOptionsScreen';
-import CoffeeBundleSummaryScreen from './nespresso/CoffeeBundleSummaryScreen';
 import CoffeeBundlePayScreen from './nespresso/CoffeeBundlePayScreen';
+import CoffeeProcessingScreen from './nespresso/CoffeeProcessingScreen';
 import CoffeeBrewingScreen from './nespresso/CoffeeBrewingScreen';
 import CoffeeReadyScreen from './nespresso/CoffeeReadyScreen';
 
@@ -19,8 +19,8 @@ const ScreenRouter = () => {
     case 'coffee_card_pay': return <CoffeeCardPayScreen />;
     case 'coffee_identify': return <CoffeeIdentifyScreen />;
     case 'coffee_account_options': return <CoffeeAccountOptionsScreen />;
-    case 'coffee_bundle_summary': return <CoffeeBundleSummaryScreen />;
     case 'coffee_bundle_pay': return <CoffeeBundlePayScreen />;
+    case 'coffee_processing': return <CoffeeProcessingScreen />;
     case 'coffee_brewing': return <CoffeeBrewingScreen />;
     case 'coffee_ready': return <CoffeeReadyScreen />;
     default: return <NespressoAdScreen />;

@@ -1,6 +1,6 @@
 import { useApp, BONO_WEEK_COFFEES, BONO_MONTH_COFFEES, MOCK_BUNDLE_REMAINING } from '@/context/AppContext';
 import { CheckCircle2 } from 'lucide-react';
-import { BrandFooter, NespressoLogo } from '@/components/NespressoBrand';
+import { NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeReadyScreen = () => {
   const { goHome, orderType, paymentMethod } = useApp();
@@ -29,7 +29,7 @@ const CoffeeReadyScreen = () => {
       <div className="text-center pt-2">
         <NespressoLogo className="!text-[12px] !tracking-[0.32em]" />
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center pb-9 gap-2 px-6 text-center">
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 px-6 text-center">
         <CheckCircle2 className="w-14 h-14 text-success" strokeWidth={2} />
         <h1 className="font-serif-nes text-3xl text-white leading-tight">Tu café está listo.</h1>
         <p className="text-[12px] text-white/85 italic">{subtitle}</p>
@@ -45,7 +45,7 @@ const CoffeeReadyScreen = () => {
           FINALIZAR
         </button>
       </div>
-      <BrandFooter />
+      
     </div>
   );
 };
