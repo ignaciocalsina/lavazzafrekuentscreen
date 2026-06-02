@@ -1,49 +1,34 @@
 import { useApp } from '@/context/AppContext';
 import { Coffee, Calendar, ChevronRight, Hand } from 'lucide-react';
-import { KioskHeader } from '@/components/NespressoBrand';
-import bg1 from '@/assets/nespresso-ad-1.jpg';
-import bg2 from '@/assets/nespresso-ad-4.jpg';
-import bg3 from '@/assets/nespresso-ad-5.jpg';
+import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeOrderScreen = () => {
   const { navigate, setOrderType, setBundleType } = useApp();
 
-  const choosePuntual = () => {
-    setOrderType('puntual');
-    setBundleType(null);
-    navigate('coffee_pay_choice');
-  };
-  const chooseWeek = () => {
-    setOrderType('bono_semanal');
-    setBundleType('week');
-    navigate('coffee_bundle_pay');
-  };
-  const chooseMonth = () => {
-    setOrderType('bono_mensual');
-    setBundleType('month');
-    navigate('coffee_bundle_pay');
+  const choose = (kind: 'puntual' | 'week' | 'month') => () => {
+    if (kind === 'puntual') { setOrderType('puntual'); setBundleType(null); }
+    if (kind === 'week')    { setOrderType('bono_semanal'); setBundleType('week'); }
+    if (kind === 'month')   { setOrderType('bono_mensual'); setBundleType('month'); }
+    navigate('coffee_payment_method');
   };
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
-      {/* Triptych background */}
-      <div className="absolute inset-0 grid grid-cols-3 opacity-35">
-        <img src={bg1} alt="" className="w-full h-full object-cover" />
-        <img src={bg2} alt="" className="w-full h-full object-cover" />
-        <img src={bg3} alt="" className="w-full h-full object-cover" />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/70 to-black/90" />
+      <FlowBackground />
 
       {/* Header */}
-      <div className="relative z-10">
-        <KioskHeader caption={<>Importe: <span className="text-[16px] font-semibold">1,50 €</span></>} />
+      <div className="relative z-10 text-center pt-2.5 pb-1.5">
+        <NespressoLogo className="!text-[17px] !tracking-[0.34em]" />
+        <p className="mt-1 text-nes-gold-text font-serif-nes text-[18px] leading-tight">
+          Tu café Nespresso te espera
+        </p>
+        <p className="text-white text-[15px] mt-0.5">Elige tu pedido</p>
       </div>
 
-      {/* 3 cards: 25% más bajas, contenido anclado abajo */}
       <div className="relative z-10 px-3 mt-auto pb-3 grid grid-cols-3 gap-2 h-[184px]">
         {/* Card 1 */}
         <button
-          onClick={choosePuntual}
+          onClick={choose('puntual')}
           className="relative rounded-xl bg-nes-cream text-nes-onyx p-2.5 flex flex-col items-center text-center justify-end active:scale-[0.98] transition-transform shadow-lg"
         >
           <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-inner">
@@ -62,7 +47,7 @@ const CoffeeOrderScreen = () => {
 
         {/* Card 2 */}
         <button
-          onClick={chooseWeek}
+          onClick={choose('week')}
           className="relative rounded-xl bg-nes-sand text-nes-onyx p-2.5 flex flex-col items-center text-center justify-end active:scale-[0.98] transition-transform shadow-lg"
         >
           <div className="absolute top-1.5 right-1.5 w-9 h-9 rounded-full bg-nes-onyx text-nes-cream flex flex-col items-center justify-center">
@@ -83,7 +68,7 @@ const CoffeeOrderScreen = () => {
 
         {/* Card 3 */}
         <button
-          onClick={chooseMonth}
+          onClick={choose('month')}
           className="relative rounded-xl bg-nes-gold text-nes-cream p-2.5 flex flex-col items-center text-center justify-end active:scale-[0.98] transition-transform shadow-lg"
         >
           <div className="absolute top-1.5 right-1.5 w-9 h-9 rounded-full bg-nes-onyx text-nes-cream flex flex-col items-center justify-center">
