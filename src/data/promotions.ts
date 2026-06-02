@@ -1,5 +1,5 @@
-import originals from '@/assets/nespresso-originals-real.png.asset.json';
-import vertuo from '@/assets/nespresso-vertuo-real.png.asset.json';
+import originals from '@/assets/nespresso-originals-anim.jpg';
+import vertuo from '@/assets/nespresso-vertuo-anim.jpg';
 import limited from '@/assets/nespresso-limited.jpg.asset.json';
 import planBarista from '@/assets/nespresso-plan-barista.jpg';
 import planRitual from '@/assets/nespresso-plan-ritual.jpg';
@@ -31,7 +31,7 @@ export const PROMOTIONS: Promotion[] = [
     subtitle: 'Pack 50 cápsulas · Intensidades del 4 al 11',
     price: 19.50,
     originalPrice: 24.50,
-    mediaUrl: originals.url,
+    mediaUrl: originals,
     mediaType: 'image',
     animate: true,
   },
@@ -42,7 +42,7 @@ export const PROMOTIONS: Promotion[] = [
     subtitle: 'Pack 30 cápsulas · Espresso, Gran Lungo y Mug',
     price: 22.90,
     originalPrice: 28.90,
-    mediaUrl: vertuo.url,
+    mediaUrl: vertuo,
     mediaType: 'image',
     animate: true,
   },
