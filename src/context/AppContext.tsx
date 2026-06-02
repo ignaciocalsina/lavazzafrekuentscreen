@@ -37,7 +37,14 @@ export type Screen =
   | 'payment_done'
   | 'promo_quantity'
   | 'promo_pay'
-  | 'promo_done';
+  | 'promo_done'
+  | 'coffee_idle'
+  | 'coffee_loading'
+  | 'coffee_pay'
+  | 'coffee_offer'
+  | 'coffee_done';
+
+export type KioskMode = 'promo' | 'coffee';
 
 export type Flow =
   | 'collect'
@@ -48,6 +55,7 @@ export type Flow =
   | 'marketplace'
   | 'payment'
   | 'promotion'
+  | 'coffee'
   | null;
 
 export type MarketplaceCardType = 'digital' | 'physical' | null;
