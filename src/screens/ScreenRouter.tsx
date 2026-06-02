@@ -62,7 +62,7 @@ const ScreenRouter = () => {
     case 'promo_quantity': return <QuantitySelectScreen />;
     case 'promo_pay': return <PromoPayScreen />;
     case 'promo_done': return <PromoDoneScreen />;
-    case 'coffee_idle': return <CoffeeIdleScreen />;
+    
     case 'coffee_loading': return <CoffeeLoadingScreen />;
     case 'coffee_pay': return <CoffeePayScreen />;
     case 'coffee_offer': return <CoffeeOfferScreen />;
