@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 215 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+
+    --primary: 213 70% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 95% 55%;
+    --secondary-foreground: 215 25% 15%;
+
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 15% 50%;
+
+    --accent: 45 95% 55%;
+    --accent-foreground: 215 25% 15%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 145 63% 42%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 214 20% 88%;
+    --input: 214 20% 88%;
+    --ring: 213 70% 40%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+}
+
+@layer components {
+  .kiosk-button {
+    @apply w-full rounded-xl px-6 py-3.5 text-sm font-semibold transition-all duration-200 active:scale-[0.97] touch-manipulation;
+  }
+
+  .kiosk-button-lg {
+    @apply w-full rounded-xl px-6 py-5 text-base font-semibold transition-all duration-200 active:scale-[0.97] touch-manipulation;
+  }
+
+  .kiosk-card {
+    @apply rounded-xl border-2 bg-card p-4 shadow-sm transition-all duration-200;
+  }
+
+  .kiosk-card-selected {
+    @apply border-primary bg-primary/5 shadow-md;
+  }
+
+  .screen-enter {
+    animation: screenEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes screenEnter {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.95);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.25);
+      opacity: 0;
+    }
+  }
+
+  @keyframes nfc-wave {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.04);
+      opacity: 1;
+    }
+  }
+
+  .nfc-pulse {
+    animation: nfc-wave 1.5s ease-in-out infinite;
+  }
+
+  .nfc-ring {
+    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
