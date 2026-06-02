@@ -40,11 +40,11 @@ const AdScreen = () => {
           className={`absolute inset-0 h-full w-full object-cover ${promo.animate ? 'animate-ken-burns' : 'animate-fade-in'}`}
         />
 
-        {/* Gradient overlay for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+        {/* Gradient overlay for legibility (bottom) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
 
-        {/* Text overlay on the left */}
-        <div className="absolute inset-y-0 left-0 w-[58%] flex flex-col justify-center items-start gap-2 px-6 text-left text-white">
+        {/* Text overlay centered at bottom */}
+        <div className="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end gap-1 px-6 pb-5 text-center text-white">
           <div className="flex items-center gap-2">
             <span className="text-[10px] uppercase tracking-[0.2em] text-white/70 font-semibold">Nespresso</span>
             {isSub && (
@@ -53,14 +53,14 @@ const AdScreen = () => {
               </span>
             )}
           </div>
-          <h2 className="text-3xl font-extrabold leading-tight drop-shadow-lg">{promo.title}</h2>
-          <p className="text-xs text-white/85 leading-snug max-w-[90%]">{promo.subtitle}</p>
+          <h2 className="text-2xl font-extrabold leading-tight drop-shadow-lg">{promo.title}</h2>
+          <p className="text-xs text-white/85 leading-snug max-w-[80%]">{promo.subtitle}</p>
 
-          <div className="flex items-baseline gap-2 flex-wrap mt-1">
+          <div className="flex items-baseline gap-2 flex-wrap justify-center mt-1">
             <span className="text-white/60 text-sm font-medium line-through">
               {formatEuro(promo.originalPrice)}
             </span>
-            <span className="text-4xl font-extrabold tracking-tight drop-shadow-lg">
+            <span className="text-3xl font-extrabold tracking-tight drop-shadow-lg">
               {formatEuro(promo.price)}
             </span>
             {isSub && <span className="text-xs text-white/80">/mes</span>}
@@ -73,9 +73,7 @@ const AdScreen = () => {
             <p className="text-[10px] text-white/70">≈ {promo.perDay} al día</p>
           )}
 
-          <div className="mt-2 inline-flex items-center gap-2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full animate-pulse">
-            {t('ad.tap')}
-          </div>
+          <p className="mt-1 text-[11px] text-white/80 font-medium animate-pulse">{t('ad.tap')}</p>
         </div>
       </button>
 
@@ -93,3 +91,4 @@ const AdScreen = () => {
 };
 
 export default AdScreen;
+
