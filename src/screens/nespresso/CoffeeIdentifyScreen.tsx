@@ -1,26 +1,12 @@
 import { useApp } from '@/context/AppContext';
 import { QrCode, Mail, Phone, CreditCard, ArrowLeft } from 'lucide-react';
-import { BrandFooter, NespressoLogo } from '@/components/NespressoBrand';
+import { NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeIdentifyScreen = () => {
-  const { navigate, orderType } = useApp();
+  const { navigate } = useApp();
 
-  const title =
-    orderType === 'bono_semanal'
-      ? 'Identifícate para guardar tu bono semanal.'
-      : orderType === 'bono_mensual'
-      ? 'Identifícate para guardar tu bono mensual.'
-      : 'Identifícate para acceder a tu cuenta Nespresso.';
-
-  const next = () => {
-    if (orderType === 'puntual') navigate('coffee_account_options');
-    else navigate('coffee_bundle_pay');
-  };
-
-  const back = () => {
-    if (orderType === 'puntual') navigate('coffee_pay_choice');
-    else navigate('coffee_bundle_summary');
-  };
+  const next = () => navigate('coffee_account_options');
+  const back = () => navigate('coffee_pay_choice');
 
   const methods = [
     { icon: QrCode, label: 'Escanear QR', hint: 'Usa la app Nespresso' },
@@ -37,9 +23,11 @@ const CoffeeIdentifyScreen = () => {
       <div className="text-center pt-2 pb-2">
         <NespressoLogo className="!text-[12px] !tracking-[0.32em]" />
         <p className="text-[9px] tracking-[0.3em] text-nes-gold-text font-semibold mt-1">IDENTIFICACIÓN</p>
-        <p className="text-white/90 text-[11px] mt-1 px-6 italic font-serif-nes">{title}</p>
+        <p className="text-white/90 text-[11px] mt-1 px-6 italic font-serif-nes">
+          Identifícate para acceder a tu cuenta Nespresso.
+        </p>
       </div>
-      <div className="flex-1 grid grid-cols-2 gap-2 px-4 pb-9">
+      <div className="flex-1 grid grid-cols-2 gap-2 px-4 pb-3">
         {methods.map(m => (
           <button
             key={m.label}
@@ -47,7 +35,7 @@ const CoffeeIdentifyScreen = () => {
             className="rounded-xl bg-nes-cream text-nes-onyx p-2.5 flex items-center gap-2.5 active:scale-[0.98] transition-transform shadow"
           >
             <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shrink-0">
-              <m.icon className="w-4.5 h-4.5" strokeWidth={1.5} />
+              <m.icon className="w-4 h-4" strokeWidth={1.5} />
             </div>
             <div className="text-left">
               <p className="font-serif-nes text-sm font-semibold tracking-wide leading-tight">{m.label}</p>
@@ -56,7 +44,6 @@ const CoffeeIdentifyScreen = () => {
           </button>
         ))}
       </div>
-      <BrandFooter />
     </div>
   );
 };

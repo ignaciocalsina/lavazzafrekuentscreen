@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { NespressoLogo, BrandFooter } from '@/components/NespressoBrand';
+import { NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeBrewingScreen = () => {
   const { navigate } = useApp();
@@ -14,7 +14,7 @@ const CoffeeBrewingScreen = () => {
       <div className="text-center pt-2">
         <NespressoLogo className="!text-[12px] !tracking-[0.32em]" />
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center pb-9 gap-3">
+      <div className="flex-1 flex flex-col items-center justify-center gap-3">
         {/* Cup with pour + steam */}
         <div className="relative w-28 h-32">
           {/* steam */}
@@ -40,7 +40,7 @@ const CoffeeBrewingScreen = () => {
         <h1 className="font-serif-nes text-2xl text-white">Preparando tu pedido…</h1>
         <p className="text-[11px] text-white/75 italic">Tu café Nespresso estará listo en unos segundos.</p>
       </div>
-      <BrandFooter />
+      
     </div>
   );
 };
