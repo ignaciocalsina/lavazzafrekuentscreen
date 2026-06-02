@@ -24,7 +24,30 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden gap-4">
+      {/* Tabs encima del bezel — selector de flujo */}
+      <div className="inline-flex rounded-full bg-[#2a2a2a] p-1 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+        {[
+          { id: 'promo' as const, label: 'Carrusel de ofertas' },
+          { id: 'coffee' as const, label: 'Pago de café' },
+        ].map(tab => {
+          const active = kioskMode === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setKioskMode(tab.id)}
+              className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${
+                active
+                  ? 'bg-white text-[#1a1a1a] shadow'
+                  : 'text-white/60 hover:text-white/90'
+              }`}
+            >
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
       <div
         className="relative rounded-[40px] bg-gradient-to-b from-[#e8e8e8] to-[#d4d4d4] shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
         style={{ padding: '35px 44px 35px 53px' }}
