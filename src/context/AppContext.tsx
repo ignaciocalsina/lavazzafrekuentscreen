@@ -158,6 +158,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       paymentInsurance: 0,
       promotionCode: null,
       quantity: 1,
+      kioskMode: 'promo',
+      coffeeOfferAccepted: false,
     }));
   }, []);
 
