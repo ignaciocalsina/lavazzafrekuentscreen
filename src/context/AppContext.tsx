@@ -28,12 +28,14 @@ export type Screen =
   | 'driver_done'
   | 'marketplace_type'
   | 'marketplace_code'
+  | 'marketplace_quantity'
   | 'marketplace_payment'
   | 'marketplace_done'
   | 'payment_amount'
   | 'payment_insurance'
   | 'payment_pay'
   | 'payment_done'
+  | 'promo_quantity'
   | 'promo_pay'
   | 'promo_done';
 
@@ -71,6 +73,7 @@ interface AppState {
   paymentInsurance: number;
   promotionCode: string | null;
   selectedPromotionId: PromotionId;
+  quantity: number;
 }
 
 interface AppContextType extends AppState {
@@ -87,6 +90,7 @@ interface AppContextType extends AppState {
   setPaymentInsurance: (n: number) => void;
   setPromotionCode: (code: string | null) => void;
   setSelectedPromotion: (id: PromotionId) => void;
+  setQuantity: (n: number) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -111,6 +115,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     paymentInsurance: 0,
     promotionCode: null,
     selectedPromotionId: 'originals',
+    quantity: 1,
   });
 
   const t = useCallback((key: string): string => {
@@ -138,6 +143,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       paymentAmount: 0,
       paymentInsurance: 0,
       promotionCode: null,
+      quantity: 1,
     }));
   }, []);
 
@@ -151,7 +157,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const setMarketplaceBrand = useCallback((id: MarketplaceBrandId) => {
-    setState(s => ({ ...s, marketplaceBrandId: id, marketplaceCardType: null, flow: 'marketplace' }));
+    setState(s => ({ ...s, marketplaceBrandId: id, marketplaceCardType: null, flow: 'marketplace', quantity: 1 }));
   }, []);
 
   const setMarketplaceCardType = useCallback((type: MarketplaceCardType) => {
@@ -175,7 +181,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const setSelectedPromotion = useCallback((id: PromotionId) => {
-    setState(s => ({ ...s, selectedPromotionId: id }));
+    setState(s => ({ ...s, selectedPromotionId: id, quantity: 1 }));
+  }, []);
+
+  const setQuantity = useCallback((n: number) => {
+    setState(s => ({ ...s, quantity: Math.max(1, Math.min(20, n)) }));
   }, []);
 
   return (
@@ -194,6 +204,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPaymentInsurance,
       setPromotionCode,
       setSelectedPromotion,
+      setQuantity,
     }}>
       {children}
     </AppContext.Provider>
