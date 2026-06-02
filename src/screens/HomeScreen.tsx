@@ -17,20 +17,20 @@ const HomeScreen = () => {
   };
 
   return (
-    <div className="screen-enter flex flex-col items-center flex-1 gap-3 mx-auto">
-      <button onClick={goHome} className="self-start flex items-center gap-1 text-muted-foreground mb-1 active:scale-95 transition-transform text-sm">
-        <ArrowLeft className="w-4 h-4" /> {t('id.back')}
+    <div className="screen-enter flex flex-col flex-1 gap-2 w-full h-full">
+      <button onClick={goHome} className="self-start flex items-center gap-1 text-muted-foreground active:scale-95 transition-transform text-xs">
+        <ArrowLeft className="w-3.5 h-3.5" /> {t('id.back')}
       </button>
-      <h1 className="text-xl font-bold text-center">{t('home.title')}</h1>
-      <div className="flex flex-col gap-3 w-full flex-1 justify-center">
+      <h1 className="text-base font-bold text-center">{t('home.title')}</h1>
+      <div className="grid grid-cols-3 gap-3 flex-1 min-h-0">
         {actions.map(({ key, label, emoji }) => (
           <button
             key={key}
             onClick={() => handleAction(key)}
-            className="kiosk-button kiosk-card flex items-center gap-4 text-left hover:border-primary/50 active:bg-primary/5"
+            className="kiosk-card flex flex-col items-center justify-center gap-2 hover:border-primary/50 active:bg-primary/5"
           >
-            <span className="text-2xl">{emoji}</span>
-            <span className="text-base font-semibold">{label}</span>
+            <span className="text-4xl">{emoji}</span>
+            <span className="text-sm font-semibold text-center leading-tight">{label}</span>
           </button>
         ))}
       </div>

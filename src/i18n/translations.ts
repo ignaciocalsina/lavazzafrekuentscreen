@@ -179,6 +179,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'promo.done.code': 'Your code',
     'promo.done.codeHint': 'Redeem this code to activate your offer',
     'promo.done.finish': 'Finish',
+    'quantity.title': 'How many?',
+    'quantity.unit': 'Unit price',
+    'quantity.total': 'Total',
+    'quantity.continue': 'Continue',
   },
   es: {
     'home.title': '¿Qué desea hacer?',
@@ -345,6 +349,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'promo.done.code': 'Tu código',
     'promo.done.codeHint': 'Canjea este código para activar tu oferta',
     'promo.done.finish': 'Finalizar',
+    'quantity.title': '¿Cuántas unidades?',
+    'quantity.unit': 'Precio por unidad',
+    'quantity.total': 'Total',
+    'quantity.continue': 'Continuar',
   },
   fr: {
     'home.title': 'Que souhaitez-vous faire ?',
@@ -511,6 +519,10 @@ export const translations: Record<Language, Record<string, string>> = {
     'promo.done.code': 'Votre code',
     'promo.done.codeHint': 'Utilisez ce code pour activer votre offre',
     'promo.done.finish': 'Terminer',
+    'quantity.title': 'Combien d\'unités ?',
+    'quantity.unit': 'Prix unitaire',
+    'quantity.total': 'Total',
+    'quantity.continue': 'Continuer',
   },
   de: {
     'home.title': 'Was möchten Sie tun?',
@@ -676,5 +688,9 @@ export const translations: Record<Language, Record<string, string>> = {
     'promo.done.code': 'Ihr Code',
     'promo.done.codeHint': 'Lösen Sie diesen Code ein, um Ihr Angebot zu aktivieren',
     'promo.done.finish': 'Beenden',
+    'quantity.title': 'Wie viele Einheiten?',
+    'quantity.unit': 'Stückpreis',
+    'quantity.total': 'Gesamt',
+    'quantity.continue': 'Weiter',
   },
 };
