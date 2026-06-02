@@ -1,53 +1,74 @@
-# Rediseño de descripciones del carrusel + Movistar Plus
+# Plan: Entrada directa al vending + chasis horizontal + carrusel Nespresso
 
-## 1. Nuevo formato visual de la descripción (todas las promos)
+## 1. Entrada directa al vending (`/`)
 
-Inspirado en la imagen de referencia ("Tour Gótico guiado + copa de cava"). Cada slide del carrusel mostrará, sobre el overlay inferior oscuro:
+Archivo: `src/pages/Soportes.tsx`.
 
-```
-        Título grande en 2 líneas (bold, blanco)
-          Subtítulo corto descriptivo (regular)
+- Eliminar la imagen `soportes.png` y el botón "Ver máquina".
+- Mostrar `vending.png` centrada a pantalla completa sobre fondo negro desde el primer momento (mismo layout que tenía el overlay actual).
+- Mantener el CTA "Ver demo" en su posición sobre la zona amarilla, enlazando a `/demo`.
+- Sin botón "Atrás" (ya no hay overlay del que volver).
+- Eliminar el asset `src/assets/soportes.png` (`delete_asset` sobre su `.asset.json`).
 
-    28,00 €   25,00 €   [-10%]
-   (tachado)  (grande,    (pill
-              destacado)   azul)
-```
+## 2. Chasis del kiosko rotado 90° a la izquierda
 
-- **Título**: bold, 2 líneas máx, centrado.
-- **Subtítulo**: una sola línea, peso medio, color blanco/80.
-- **Fila de precio** (centrada, alineada en baseline):
-  - Precio original tachado, gris claro, tamaño medio.
-  - Precio final grande, blanco, extra-bold.
-  - Píldora con `-XX%` en azul primario, texto blanco, pequeña.
-- Debajo, en pequeño, sigue el "Toca para continuar" pulsante.
+Archivo: `src/components/KioskLayout.tsx`.
 
-## 2. Propuesta de copy + precios por promoción
+- Envolver el bezel actual en un wrapper con `transform: rotate(-90deg)` y `transform-origin: center`.
+- Intercambiar ancho/alto del contenedor exterior para que el bounding box girado quepa bien centrado en pantalla.
+- Mantener el dot de la cámara con sus coordenadas absolutas actuales (`top-[22px] left-[55px]`): tras la rotación quedará físicamente en la esquina inferior-izquierda del viewport, como pide el usuario.
+- El contenido interno NO se contrarrota — gira literalmente con el chasis (rotación CSS literal, según preferencia del usuario).
+- La pantalla interna sigue siendo lógicamente 370×616.
 
+## 3. Carrusel de anuncios Nespresso (reemplaza el actual `AdScreen`)
 
-| #   | Título                  | Subtítulo                                      | Precio orig. | Precio final | Descuento |
-| --- | ----------------------- | ---------------------------------------------- | ------------ | ------------ | --------- |
-| 1   | **Barça - Betis**       | Mira el próximo Barça vs Betis al mejor precio | 9,99 €       | **4,99 €**   | -50%      |
-| 2   | **Misión Imposible**    | Estreno de acción al mejor precio              | 6,99 €       | **3,99 €**   | -43%      |
-| 3   | **Alcaraz vs Djokovic** | Mira la final ATP al mejor precio              | 9,99 €       | **5,99 €**   | -40%      |
-| 4   | **Movistar Plus +**     | 50% dto. los 2 primeros meses                  | 9,99 €       | **4,99 €**   | -50%      |
+Archivo: `src/screens/AdScreen.tsx` + `src/data/promotions.ts`.
 
+- Sustituir las 4 promos actuales (Barça, Misión Imposible, tenis, Movistar+) por slides Nespresso:
+  1. Cápsulas **Originals** — gama clásica (Arpeggio, Livanto, Roma…)
+  2. Cápsulas **Vertuo** — formato grande
+  3. **Edición limitada** estacional
+  4. **Aeroccino** — espumador de leche
+  5. **Máquinas Pro** para oficina
+- Cada slide: imagen de producto a sangre, título, subtítulo corto, precio (`€` con dos decimales y coma) y % de descuento cuando aplique. Mismo formato visual del `AdScreen` actual (overlay degradado, dots arriba, "toca para continuar").
+- Auto-rotación cada 5 s (igual que ahora).
+- Al tocar un slide se mantiene la navegación actual (`promo_pay` → flujo de pago contactless ya existente, reutilizado tal cual con el precio del producto).
+- Eliminar los `.mp4.asset.json` no usados (`barca-led-ad`, `promo-mission`, `promo-tennis`, `promo-movistar`) vía `delete_asset`.
 
-(Los precios "originales" son referencia razonable para justificar el descuento; ajustables si prefieres otros.)
+### Assets nuevos
 
-## 3. Movistar Plus — nueva imagen y video
+Generar 5 imágenes con `imagegen` (estilo producto sobre fondo limpio, sin usar logo Nespresso real):
+- `src/assets/nespresso-originals.jpg`
+- `src/assets/nespresso-vertuo.jpg`
+- `src/assets/nespresso-limited.jpg`
+- `src/assets/nespresso-aeroccino.jpg`
+- `src/assets/nespresso-pro.jpg`
 
-- Reemplazar `src/assets/promo-movistar.mp4` por una nueva animación generada a partir de la **segunda imagen adjuntada** (logo M+ blanco sobre fondo negro, con "movistar" debajo).
-- Requisitos del nuevo video:
-  - **Logo completo siempre visible** en pantalla con margen cómodo (sin recortes).
-  - **Zoom claramente reducido** respecto al anterior — encuadre estable, logo ocupando ~55-60% del alto.
-  - Animación **sutil**: leve respiración/escala (1.00 → 1.03), brillo suave que recorre el logo una vez, partículas mínimas. Nada agresivo.
-  - Fondo negro puro, 1080p, vertical (9:16) para encajar con el kiosco.
+Subir cada una con `lovable-assets create` y guardar el `.asset.json` correspondiente.
 
-## 4. Archivos a tocar (técnico)
+### Modelo de datos
 
-- `src/data/promotions.ts`: añadir campos `originalPrice` y `discountPercent` (o calcular discount), actualizar títulos/subtítulos/precios de las 4 promos.
-- `src/screens/AdScreen.tsx`: rediseñar el bloque inferior con el nuevo layout (título, subtítulo, fila de precios con tachado + destacado + píldora).
-- `src/screens/payment/PromoPayScreen.tsx`: mostrar también precio original tachado + % descuento junto al precio final, coherente con el nuevo formato.
-- `src/assets/promo-movistar.mp4`: regenerar con `videogen` usando la imagen adjuntada como `starting_frame`, prompt de animación sutil y encuadre amplio.
+`src/data/promotions.ts`:
+- Mantener `Promotion`, `formatEuro`, `getDiscountPercent`, `getPromotion`.
+- Cambiar `PromotionId` a los nuevos ids (`originals | vertuo | limited | aeroccino | pro`).
+- `mediaType` pasa a `'image'` para todos.
+- Actualizar `selectedPromotionId` por defecto en `AppContext` (`'originals'`).
 
-¿Te parece bien esta propuesta de copys y precios, o quieres ajustar algún título/precio antes de implementarlo?
+## 4. Resto de la demo
+
+Sin cambios: `role_select`, `home`, flujos de pago, marketplace, repartidor, etc. siguen tal cual. Solo cambia el contenido del carrusel de entrada y la orientación del chasis.
+
+## 5. i18n y memoria
+
+- Añadir claves de los nuevos slides a `src/i18n/translations.ts` (`ad.nespresso.originals.title`, etc.) en `es/en/fr/de`.
+- Eliminar claves obsoletas de las promos viejas si quedan sin uso.
+- Actualizar `mem://index.md`:
+  - Core: cambiar la línea de "Entry flow" — el `ad` ahora es carrusel Nespresso, no Barça LED.
+  - Añadir memoria nueva `mem://features/carrusel-nespresso` con los 5 slides.
+  - Actualizar `mem://features/pantalla-inicio` con la nueva orientación horizontal del chasis.
+
+## Fuera de alcance
+
+- No se rediseña la selección de café (descartado en este plan).
+- No se toca el flujo de pago (`promo_pay` → `promo_done`) salvo el precio del producto.
+- No se cambian las rutas de la app.
