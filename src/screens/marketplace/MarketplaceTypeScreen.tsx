@@ -8,7 +8,7 @@ const MarketplaceTypeScreen = () => {
 
   const choose = (type: 'digital' | 'physical') => {
     setMarketplaceCardType(type);
-    navigate(type === 'physical' ? 'marketplace_code' : 'marketplace_payment');
+    navigate(type === 'physical' ? 'marketplace_code' : 'marketplace_quantity');
   };
 
   return (

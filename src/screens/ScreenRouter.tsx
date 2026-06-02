@@ -9,12 +9,14 @@ import { SendDetails, SendPrice, SendPayment, SendCreated, SendDeposit, SendDone
 import { DriverNfc, DriverPackageList, DriverOpen, DriverCollectDone, DriverDone } from './DriverScreens';
 import MarketplaceTypeScreen from './marketplace/MarketplaceTypeScreen';
 import MarketplaceCodeScreen from './marketplace/MarketplaceCodeScreen';
+import MarketplaceQuantityScreen from './marketplace/MarketplaceQuantityScreen';
 import MarketplacePaymentScreen from './marketplace/MarketplacePaymentScreen';
 import MarketplaceDoneScreen from './marketplace/MarketplaceDoneScreen';
 import PaymentAmountScreen from './payment/PaymentAmountScreen';
 import PaymentInsuranceScreen from './payment/PaymentInsuranceScreen';
 import PaymentPayScreen from './payment/PaymentPayScreen';
 import PaymentDoneScreen from './payment/PaymentDoneScreen';
+import QuantitySelectScreen from './payment/QuantitySelectScreen';
 import PromoPayScreen from './payment/PromoPayScreen';
 import PromoDoneScreen from './payment/PromoDoneScreen';
 
@@ -45,12 +47,14 @@ const ScreenRouter = () => {
     case 'driver_done': return <DriverDone />;
     case 'marketplace_type': return <MarketplaceTypeScreen />;
     case 'marketplace_code': return <MarketplaceCodeScreen />;
+    case 'marketplace_quantity': return <MarketplaceQuantityScreen />;
     case 'marketplace_payment': return <MarketplacePaymentScreen />;
     case 'marketplace_done': return <MarketplaceDoneScreen />;
     case 'payment_amount': return <PaymentAmountScreen />;
     case 'payment_insurance': return <PaymentInsuranceScreen />;
     case 'payment_pay': return <PaymentPayScreen />;
     case 'payment_done': return <PaymentDoneScreen />;
+    case 'promo_quantity': return <QuantitySelectScreen />;
     case 'promo_pay': return <PromoPayScreen />;
     case 'promo_done': return <PromoDoneScreen />;
     default: return <RoleSelectScreen />;

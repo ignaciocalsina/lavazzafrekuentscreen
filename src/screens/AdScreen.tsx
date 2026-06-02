@@ -9,6 +9,7 @@ const AdScreen = () => {
   const promo = PROMOTIONS[index];
   const total = PROMOTIONS.length;
   const discount = getDiscountPercent(promo);
+  const isSub = promo.kind === 'subscription';
 
   useEffect(() => {
     const id = setInterval(() => setIndex(i => (i + 1) % total), 5000);
@@ -17,64 +18,66 @@ const AdScreen = () => {
 
   const handleSelect = () => {
     setSelectedPromotion(promo.id);
-    navigate('promo_pay', 'promotion');
+    if (isSub) {
+      navigate('promo_pay', 'promotion');
+    } else {
+      navigate('promo_quantity', 'promotion');
+    }
   };
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-black">
       <button
         onClick={handleSelect}
-        className="absolute inset-0 active:opacity-95"
+        className="absolute inset-0 grid grid-cols-2 active:opacity-95"
         aria-label={promo.title}
       >
-        {promo.mediaType === 'video' ? (
-          <video
-            key={promo.id}
-            src={promo.mediaUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        ) : (
+        {/* Left: image */}
+        <div className="relative overflow-hidden bg-black">
           <img
             key={promo.id}
             src={promo.mediaUrl}
             alt={promo.title}
-            className="absolute inset-0 h-full w-full object-cover animate-fade-in"
+            className={`absolute inset-0 h-full w-full object-cover ${promo.animate ? 'animate-ken-burns' : 'animate-fade-in'}`}
           />
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
+          {isSub && (
+            <div className="absolute top-3 left-3 bg-secondary text-secondary-foreground text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">
+              Suscripción
+            </div>
+          )}
+        </div>
 
-        <div className="absolute bottom-0 left-0 right-0 p-5 pt-10 text-center pointer-events-none">
-          <p className="text-white text-2xl font-extrabold leading-tight drop-shadow-lg mb-1.5 px-2">
-            {promo.title}
-          </p>
-          <p className="text-white/85 text-sm font-medium leading-snug drop-shadow-md mb-4 px-4">
-            {promo.subtitle}
-          </p>
+        {/* Right: info panel */}
+        <div className="relative flex flex-col justify-center items-start gap-3 px-6 py-5 bg-gradient-to-br from-[#1a1410] to-black text-white text-left">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-semibold">Nespresso</span>
+          <h2 className="text-2xl font-extrabold leading-tight">{promo.title}</h2>
+          <p className="text-xs text-white/75 leading-snug">{promo.subtitle}</p>
 
-          <div className="flex items-baseline justify-center gap-2.5 mb-3">
-            <span className="text-white/60 text-base font-medium line-through">
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <span className="text-white/55 text-sm font-medium line-through">
               {formatEuro(promo.originalPrice)}
             </span>
-            <span className="text-white text-3xl font-extrabold tracking-tight drop-shadow-lg">
+            <span className="text-3xl font-extrabold tracking-tight">
               {formatEuro(promo.price)}
             </span>
-            <span className="bg-primary text-primary-foreground text-xs font-bold px-2 py-0.5 rounded-full">
+            {isSub && <span className="text-xs text-white/70">/mes</span>}
+            <span className="bg-primary text-primary-foreground text-[10px] font-bold px-1.5 py-0.5 rounded-full">
               -{discount}%
             </span>
           </div>
 
-          <p className="text-white/80 text-xs font-medium animate-pulse">
+          {isSub && promo.perDay && (
+            <p className="text-[10px] text-white/60">≈ {promo.perDay} al día</p>
+          )}
+
+          <div className="mt-1 inline-flex items-center gap-2 bg-primary text-primary-foreground text-xs font-bold px-3 py-1.5 rounded-full animate-pulse">
             {t('ad.tap')}
-          </p>
+          </div>
         </div>
       </button>
 
       {/* Dots */}
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+      <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5 pointer-events-none">
         {PROMOTIONS.map((p, i) => (
           <div
             key={p.id}

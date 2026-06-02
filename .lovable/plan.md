@@ -1,74 +1,71 @@
-# Plan: Entrada directa al vending + chasis horizontal + carrusel Nespresso
+## 1. Adaptar todas las pantallas al formato landscape (616×370)
 
-## 1. Entrada directa al vending (`/`)
+Actualmente las pantallas siguen pensadas para vertical (estrecho/alto) y al meterlas en un viewport ancho/bajo quedan con todo apretado arriba y mucho espacio vacío a los lados. Reescribir cada pantalla pensando en dos columnas siempre que tenga sentido:
 
-Archivo: `src/pages/Soportes.tsx`.
+- **RoleSelectScreen** (`/demo` inicial): pasar a layout 2 columnas. Izquierda: bloque "Pago directo" + "Promoción Nespresso" apilados verticalmente. Derecha: grid 3×2 de tarjetas regalo. Eliminar el `pt-1` y el scroll vertical.
+- **AdScreen** (carrusel Nespresso): layout horizontal con imagen a la izquierda (50%) y panel de texto/precio/CTA a la derecha (50%) en lugar del overlay inferior actual. Dots arriba‑centrado se quedan.
+- **HomeScreen**: 3 acciones en fila horizontal en vez de columna apilada.
+- **IdentificationScreen / CollectScreens / ReturnScreens / SendScreens**: revisar cada una para usar dos columnas (info/preview izquierda, acción/teclado derecha) cuando aplique. Reducir tipografías que estén demasiado grandes para 370 px de alto.
+- **PaymentAmountScreen**: teclado numérico a la derecha, importe + hints + botón continuar a la izquierda.
+- **PaymentInsuranceScreen**: opciones de seguro en grid 2×2 a la derecha, resumen importe + texto explicativo a la izquierda.
+- **PromoPayScreen / PaymentPayScreen / MarketplacePaymentScreen**: imagen/resumen del producto a la izquierda, NFC + instrucciones a la derecha.
+- **PromoDoneScreen / PaymentDoneScreen / MarketplaceDoneScreen / SendDoneScreen / CollectDoneScreen**: QR + check a la izquierda, detalle/código/CTA a la derecha.
+- **MarketplaceTypeScreen / MarketplaceCodeScreen**: ya tipo 2 columnas, revisar tamaños.
+- **DriverScreens**: revisar OperationCard list para no rebosar.
+- **KioskLayout**: el footer "Contacto" actualmente ocupa una franja inferior de 50 px en una pantalla de 370 px (≈14%). Moverlo a un botón flotante en una esquina (p. ej. esquina inferior derecha del área de contenido) para liberar altura. La barra de estado superior se reduce a la altura mínima.
 
-- Eliminar la imagen `soportes.png` y el botón "Ver máquina".
-- Mostrar `vending.png` centrada a pantalla completa sobre fondo negro desde el primer momento (mismo layout que tenía el overlay actual).
-- Mantener el CTA "Ver demo" en su posición sobre la zona amarilla, enlazando a `/demo`.
-- Sin botón "Atrás" (ya no hay overlay del que volver).
-- Eliminar el asset `src/assets/soportes.png` (`delete_asset` sobre su `.asset.json`).
+Regla general: nada debe hacer scroll dentro del área 616×370 (memoria del kiosko). Si algo no entra, reducir tamaños y simplificar, no permitir scroll.
 
-## 2. Chasis del kiosko rotado 90° a la izquierda
+## 2. Añadir paso de selección de unidades antes del pago
 
-Archivo: `src/components/KioskLayout.tsx`.
+Nueva pantalla `quantity_select` entre la selección de producto y la pantalla de pago. Aplica al flujo Promoción (carrusel Nespresso) y al flujo Marketplace (tarjetas regalo) — el flujo "Pago directo" no la necesita porque el importe se teclea libremente.
 
-- Envolver el bezel actual en un wrapper con `transform: rotate(-90deg)` y `transform-origin: center`.
-- Intercambiar ancho/alto del contenedor exterior para que el bounding box girado quepa bien centrado en pantalla.
-- Mantener el dot de la cámara con sus coordenadas absolutas actuales (`top-[22px] left-[55px]`): tras la rotación quedará físicamente en la esquina inferior-izquierda del viewport, como pide el usuario.
-- El contenido interno NO se contrarrota — gira literalmente con el chasis (rotación CSS literal, según preferencia del usuario).
-- La pantalla interna sigue siendo lógicamente 370×616.
+Diseño (landscape):
+- Izquierda: thumbnail del producto + título + precio unitario.
+- Derecha: selector grande con botones `−` y `+` (mín. 1, máx. 20), número central tabular‑nums, subtotal en vivo debajo (`unidad × cantidad = total`), botón "Continuar".
 
-## 3. Carrusel de anuncios Nespresso (reemplaza el actual `AdScreen`)
+Estado nuevo en `AppContext`: `quantity: number` + `setQuantity(n)`. Los siguientes `*PayScreen` toman `price * quantity` como importe a cobrar y muestran ambos (unidad y total).
 
-Archivo: `src/screens/AdScreen.tsx` + `src/data/promotions.ts`.
+Rutas:
+- Carrusel Nespresso → tap promoción → `quantity_select` → `promo_pay` → `promo_done`.
+- Marketplace → marca → tipo (digital/física) → `quantity_select` → `marketplace_payment` → `marketplace_done`.
 
-- Sustituir las 4 promos actuales (Barça, Misión Imposible, tenis, Movistar+) por slides Nespresso:
-  1. Cápsulas **Originals** — gama clásica (Arpeggio, Livanto, Roma…)
-  2. Cápsulas **Vertuo** — formato grande
-  3. **Edición limitada** estacional
-  4. **Aeroccino** — espumador de leche
-  5. **Máquinas Pro** para oficina
-- Cada slide: imagen de producto a sangre, título, subtítulo corto, precio (`€` con dos decimales y coma) y % de descuento cuando aplique. Mismo formato visual del `AdScreen` actual (overlay degradado, dots arriba, "toca para continuar").
-- Auto-rotación cada 5 s (igual que ahora).
-- Al tocar un slide se mantiene la navegación actual (`promo_pay` → flujo de pago contactless ya existente, reutilizado tal cual con el precio del producto).
-- Eliminar los `.mp4.asset.json` no usados (`barca-led-ad`, `promo-mission`, `promo-tennis`, `promo-movistar`) vía `delete_asset`.
+## 3. Rehacer el carrusel Nespresso
 
-### Assets nuevos
+**Eliminar máquinas y Aeroccino** (`pro`, `aeroccino`) de `PROMOTIONS`. Borrar también sus assets (`nespresso-pro.jpg`, `nespresso-aeroccino.jpg`).
 
-Generar 5 imágenes con `imagegen` (estilo producto sobre fondo limpio, sin usar logo Nespresso real):
-- `src/assets/nespresso-originals.jpg`
-- `src/assets/nespresso-vertuo.jpg`
-- `src/assets/nespresso-limited.jpg`
-- `src/assets/nespresso-aeroccino.jpg`
-- `src/assets/nespresso-pro.jpg`
+**Añadir suscripciones** a partir de las imágenes adjuntadas (referencia visual, no se incrustan):
+- `plan_barista`: 45 €/mes (1,5 €/día), con 10 % de descuento → precio mostrado 40,50 €/mes, original tachado 45 €/mes. Subtítulo: "Diseñado para quienes hacen del café su imprescindible durante todo el día."
+- `plan_ritual`: 39 €/mes (1,3 €/día), con 10 % → 35,10 €/mes, original 39 €/mes. Subtítulo: "La pausa perfecta para quienes disfrutan de varias tazas al día."
 
-Subir cada una con `lovable-assets create` y guardar el `.asset.json` correspondiente.
+Para cada suscripción generar una imagen visual de Nespresso (taza/cápsula tipo lifestyle) con `imagegen`.
 
-### Modelo de datos
+**Cápsulas con imágenes reales del usuario:**
+- `originals`: usar `user-uploads://image-3.png` (cápsulas de colores). Subir como asset Lovable.
+- `vertuo`: usar `user-uploads://image-4.png` (vaso con café + cápsula). Subir como asset Lovable.
+- Edición Limitada (`limited`): se mantiene con la imagen ya generada.
 
-`src/data/promotions.ts`:
-- Mantener `Promotion`, `formatEuro`, `getDiscountPercent`, `getPromotion`.
-- Cambiar `PromotionId` a los nuevos ids (`originals | vertuo | limited | aeroccino | pro`).
-- `mediaType` pasa a `'image'` para todos.
-- Actualizar `selectedPromotionId` por defecto en `AppContext` (`'originals'`).
+**Animación de cápsulas**: añadir `kenBurns` / float al `<img>` cuando es slide de cápsulas (originals/vertuo): un `transform: scale(1) → scale(1.08)` con `translate` ligero, 8 s ease‑in‑out infinito. Implementado como keyframe en Tailwind config y clase `animate-ken-burns` aplicada condicionalmente.
 
-## 4. Resto de la demo
+**Estructura final del carrusel** (5 slides, auto‑rotate 5 s):
+1. Cápsulas Originals (imagen usuario, animada)
+2. Cápsulas Vertuo (imagen usuario, animada)
+3. Edición Limitada Festive (imagen generada, estática)
+4. Plan Barista — Suscripción (imagen generada Nespresso lifestyle)
+5. Plan Ritual — Suscripción (imagen generada Nespresso lifestyle)
 
-Sin cambios: `role_select`, `home`, flujos de pago, marketplace, repartidor, etc. siguen tal cual. Solo cambia el contenido del carrusel de entrada y la orientación del chasis.
+`PromotionId` pasa a `'originals' | 'vertuo' | 'limited' | 'plan_barista' | 'plan_ritual'`. `AppContext.selectedPromotionId` por defecto `'originals'`. Para suscripciones, mostrar "/mes" en `PromoPayScreen` y omitir el paso de cantidad (cantidad fija = 1).
 
-## 5. i18n y memoria
+## Detalles técnicos
 
-- Añadir claves de los nuevos slides a `src/i18n/translations.ts` (`ad.nespresso.originals.title`, etc.) en `es/en/fr/de`.
-- Eliminar claves obsoletas de las promos viejas si quedan sin uso.
-- Actualizar `mem://index.md`:
-  - Core: cambiar la línea de "Entry flow" — el `ad` ahora es carrusel Nespresso, no Barça LED.
-  - Añadir memoria nueva `mem://features/carrusel-nespresso` con los 5 slides.
-  - Actualizar `mem://features/pantalla-inicio` con la nueva orientación horizontal del chasis.
+- Animación Ken Burns: nueva keyframe en `tailwind.config.ts` (`ken-burns`) + clase utilitaria. Aplicar `style={{ animationDelay: ... }}` para evitar saltos al cambiar slide.
+- Selector de unidades: componente `QuantityStepper` reusable en `src/components/kiosk/`.
+- i18n: nuevas claves `quantity.title`, `quantity.unit`, `quantity.total`, `quantity.continue`, `promo.plan_barista.*`, `promo.plan_ritual.*`, `promo.per_month` en `translations.ts` (ES/EN/FR/DE).
+- `AdScreen`: para suscripciones, mostrar "/mes" y badge "‑10%". Para cápsulas, sin sufijo y badge calculado de `getDiscountPercent`.
+- Limpieza: borrar `nespresso-pro.jpg(.asset.json)` y `nespresso-aeroccino.jpg(.asset.json)`.
+- Actualizar `mem://features/carrusel-nespresso` y `mem://index.md` con los nuevos 5 slides, el paso de cantidad y la regla landscape.
 
 ## Fuera de alcance
 
-- No se rediseña la selección de café (descartado en este plan).
-- No se toca el flujo de pago (`promo_pay` → `promo_done`) salvo el precio del producto.
-- No se cambian las rutas de la app.
+- No tocar lógica de NFC ni del QR final más allá de adaptarlo visualmente al landscape.
+- No añadir backend / persistencia de suscripciones (solo simulación visual como el resto del kiosko).

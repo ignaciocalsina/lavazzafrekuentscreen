@@ -12,7 +12,7 @@ const MarketplaceCodeScreen = () => {
   const handleContinue = () => {
     if (!code.trim()) return;
     setMarketplaceActivationCode(code.trim());
-    navigate('marketplace_payment');
+    navigate('marketplace_quantity');
   };
 
   return (

@@ -87,12 +87,18 @@ export default {
           "0%": { transform: "scale(0.95)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        "ken-burns": {
+          "0%":   { transform: "scale(1) translate(0, 0)" },
+          "50%":  { transform: "scale(1.08) translate(-1.5%, 1%)" },
+          "100%": { transform: "scale(1) translate(0, 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
+        "ken-burns": "ken-burns 12s ease-in-out infinite",
       },
     },
   },
