@@ -19,7 +19,7 @@ import PaymentDoneScreen from './payment/PaymentDoneScreen';
 import QuantitySelectScreen from './payment/QuantitySelectScreen';
 import PromoPayScreen from './payment/PromoPayScreen';
 import PromoDoneScreen from './payment/PromoDoneScreen';
-import CoffeeIdleScreen from './coffee/CoffeeIdleScreen';
+
 import CoffeeLoadingScreen from './coffee/CoffeeLoadingScreen';
 import CoffeePayScreen from './coffee/CoffeePayScreen';
 import CoffeeOfferScreen from './coffee/CoffeeOfferScreen';
@@ -62,7 +62,7 @@ const ScreenRouter = () => {
     case 'promo_quantity': return <QuantitySelectScreen />;
     case 'promo_pay': return <PromoPayScreen />;
     case 'promo_done': return <PromoDoneScreen />;
-    case 'coffee_idle': return <CoffeeIdleScreen />;
+    
     case 'coffee_loading': return <CoffeeLoadingScreen />;
     case 'coffee_pay': return <CoffeePayScreen />;
     case 'coffee_offer': return <CoffeeOfferScreen />;

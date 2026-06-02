@@ -38,7 +38,6 @@ export type Screen =
   | 'promo_quantity'
   | 'promo_pay'
   | 'promo_done'
-  | 'coffee_idle'
   | 'coffee_loading'
   | 'coffee_pay'
   | 'coffee_offer'
@@ -208,7 +207,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({
       ...s,
       kioskMode: m,
-      screen: m === 'promo' ? 'ad' : 'coffee_idle',
+      screen: m === 'promo' ? 'ad' : 'coffee_loading',
       flow: m === 'promo' ? null : 'coffee',
       processing: false,
       coffeeOfferAccepted: false,

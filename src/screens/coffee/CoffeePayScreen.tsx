@@ -1,32 +1,33 @@
 import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft } from 'lucide-react';
 import contactlessIcon from '@/assets/contactless-icon.png';
 
 const CoffeePayScreen = () => {
-  const { navigate, setProcessing } = useApp();
+  const { navigate, setProcessing, coffeeOfferAccepted } = useApp();
   const [processing, setLocal] = useState(false);
+
+  const total = coffeeOfferAccepted ? 17.5 : 3.5;
+  const formatted = total.toFixed(2).replace('.', ',') + ' €';
 
   const pay = () => {
     if (processing) return;
     setLocal(true);
     setProcessing(true);
-    setTimeout(() => navigate('coffee_offer'), 1600);
+    setTimeout(() => navigate('coffee_done'), 1600);
   };
 
   return (
     <div className="screen-enter flex flex-col flex-1 gap-1 w-full h-full">
-      <button onClick={() => navigate('coffee_idle')} className="self-start flex items-center gap-1 text-muted-foreground active:scale-95 transition-transform text-xs">
-        <ArrowLeft className="w-3.5 h-3.5" /> Atrás
-      </button>
-
       <div className="text-center">
-        <h1 className="text-base font-bold leading-tight">Cappuccino</h1>
-        <p className="text-[11px] text-muted-foreground">1 × 3,50 €</p>
+        <h1 className="text-base font-bold leading-tight">Tu pedido</h1>
+        <div className="text-[11px] text-muted-foreground leading-tight mt-0.5">
+          <p>1 × Cappuccino · 3,50 €</p>
+          {coffeeOfferAccepted && <p>1 × Pack 5 cafés · 14,00 €</p>}
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-3">
-        <p className="text-5xl font-extrabold text-primary tabular-nums">3,50 €</p>
+        <p className="text-5xl font-extrabold text-primary tabular-nums">{formatted}</p>
 
         {processing ? (
           <div className="flex flex-col items-center gap-2">
