@@ -8,8 +8,8 @@ export type Screen =
   | 'coffee_card_pay'
   | 'coffee_identify'
   | 'coffee_account_options'
-  | 'coffee_bundle_summary'
   | 'coffee_bundle_pay'
+  | 'coffee_processing'
   | 'coffee_brewing'
   | 'coffee_ready';
 
@@ -19,10 +19,9 @@ export type BundleType = 'week' | 'month';
 export type PaymentMethod = 'card' | 'balance' | 'bundle_credit';
 export type MockUserState = 'empty' | 'balance' | 'bundle';
 
-// Demo values
 export const COFFEE_PRICE = 1.5;
-export const BONO_WEEK_PRICE = 6;    // 4 × 1,50
-export const BONO_MONTH_PRICE = 22.5; // 15 × 1,50
+export const BONO_WEEK_PRICE = 6;
+export const BONO_MONTH_PRICE = 22.5;
 export const BONO_WEEK_COFFEES = 5;
 export const BONO_MONTH_COFFEES = 20;
 export const MOCK_BALANCE = 10;
