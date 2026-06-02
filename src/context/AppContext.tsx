@@ -4,9 +4,10 @@ import { Language, translations } from '@/i18n/translations';
 export type Screen =
   | 'ad'
   | 'coffee_order'
-  | 'coffee_pay_choice'
-  | 'coffee_card_pay'
-  | 'coffee_bundle_pay'
+  | 'coffee_payment_method'
+  | 'coffee_normal_pay'
+  | 'coffee_balance_pay'
+  | 'coffee_coupon_pay'
   | 'coffee_processing'
   | 'coffee_brewing'
   | 'coffee_ready';
@@ -14,13 +15,17 @@ export type Screen =
 export type KioskMode = 'promo' | 'coffee';
 export type OrderType = 'puntual' | 'bono_semanal' | 'bono_mensual';
 export type BundleType = 'week' | 'month';
-export type PaymentMethod = 'card' | 'loyalty';
+export type PaymentMethod = 'normal' | 'balance' | 'coupon';
 
 export const COFFEE_PRICE = 1.5;
 export const BONO_WEEK_PRICE = 6;
 export const BONO_MONTH_PRICE = 22.5;
 export const BONO_WEEK_COFFEES = 5;
 export const BONO_MONTH_COFFEES = 20;
+
+// My Espresso (mock)
+export const MY_ESPRESSO_BALANCE = 3.5;
+export const COUPON_INITIAL = 3;
 
 interface AppState {
   screen: Screen;
@@ -30,6 +35,7 @@ interface AppState {
   orderType: OrderType;
   bundleType: BundleType | null;
   paymentMethod: PaymentMethod | null;
+  couponRemaining: number;
 }
 
 interface AppContextType extends AppState {
@@ -42,6 +48,8 @@ interface AppContextType extends AppState {
   setOrderType: (t: OrderType) => void;
   setBundleType: (t: BundleType | null) => void;
   setPaymentMethod: (m: PaymentMethod | null) => void;
+  consumeCoupon: () => void;
+  getOrderAmount: () => number;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -61,6 +69,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     orderType: 'puntual',
     bundleType: null,
     paymentMethod: null,
+    couponRemaining: COUPON_INITIAL,
   });
 
   const t = useCallback((key: string): string => translations[state.language]?.[key] || key, [state.language]);
@@ -96,11 +105,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setOrderType = useCallback((orderType: OrderType) => setState(s => ({ ...s, orderType })), []);
   const setBundleType = useCallback((bundleType: BundleType | null) => setState(s => ({ ...s, bundleType })), []);
   const setPaymentMethod = useCallback((paymentMethod: PaymentMethod | null) => setState(s => ({ ...s, paymentMethod })), []);
+  const consumeCoupon = useCallback(() => setState(s => ({ ...s, couponRemaining: Math.max(0, s.couponRemaining - 1) })), []);
+
+  const getOrderAmount = useCallback(() => {
+    if (state.orderType === 'bono_semanal') return BONO_WEEK_PRICE;
+    if (state.orderType === 'bono_mensual') return BONO_MONTH_PRICE;
+    return COFFEE_PRICE;
+  }, [state.orderType]);
 
   return (
     <AppContext.Provider value={{
       ...state, t, setLanguage, navigate, goHome, setProcessing,
       setKioskMode, setOrderType, setBundleType, setPaymentMethod,
+      consumeCoupon, getOrderAmount,
     }}>
       {children}
     </AppContext.Provider>
