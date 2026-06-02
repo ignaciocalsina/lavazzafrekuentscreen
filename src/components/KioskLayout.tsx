@@ -79,20 +79,9 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
           {/* Powered by Frekuent — tiny strip */}
           {!isAd && (
-            <div className="shrink-0 py-0.5 text-center">
+            <div className="shrink-0 pb-3 text-center">
               <p className="text-[8px] text-muted-foreground">Powered by <span className="font-semibold">Frekuent</span></p>
             </div>
-          )}
-
-          {/* Floating Contact button (replaces footer band) */}
-          {!isAd && (
-            <button
-              onClick={() => setContactOpen(true)}
-              className="absolute bottom-3 right-3 z-30 w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg active:scale-95 transition-transform"
-              aria-label={t('footer.contact')}
-            >
-              <Phone className="w-4 h-4 text-primary-foreground" />
-            </button>
           )}
 
           {/* Contact Modal */}
