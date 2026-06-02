@@ -29,9 +29,9 @@ const Soportes = () => {
           <Link
             to="/demo"
             aria-label="Ver demo interactiva"
-            className="absolute left-[72%] top-[37%] -translate-y-1/2 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-black shadow-lg hover:bg-white transition-colors whitespace-nowrap animate-pulse"
+            className="absolute left-[72%] top-[37%] -translate-y-1/2 inline-flex items-center gap-2.5 rounded-full bg-white/95 px-5 py-2.5 text-base font-semibold text-black shadow-lg hover:bg-white transition-colors whitespace-nowrap"
           >
-            <Monitor className="w-3.5 h-3.5" />
+            <Monitor className="w-5 h-5" />
             Ver demo
           </Link>
         </div>
