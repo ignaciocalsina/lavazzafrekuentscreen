@@ -128,6 +128,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     promotionCode: null,
     selectedPromotionId: 'originals',
     quantity: 1,
+    kioskMode: 'promo',
+    coffeeOfferAccepted: false,
   });
 
   const t = useCallback((key: string): string => {
