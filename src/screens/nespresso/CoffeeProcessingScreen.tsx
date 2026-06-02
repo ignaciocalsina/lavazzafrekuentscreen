@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
-import { NespressoLogo } from '@/components/NespressoBrand';
+import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeProcessingScreen = () => {
   const { navigate } = useApp();
@@ -11,10 +11,11 @@ const CoffeeProcessingScreen = () => {
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
-      <div className="text-center pt-3">
-        <NespressoLogo className="!text-[12px] !tracking-[0.32em]" />
+      <FlowBackground />
+      <div className="relative z-10 text-center pt-3">
+        <NespressoLogo className="!text-[17px] !tracking-[0.34em]" />
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center gap-4">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-4">
         <div className="relative w-20 h-20">
           <div className="absolute inset-0 rounded-full border-[5px] border-nes-gold-text/15" />
           <div className="absolute inset-0 rounded-full border-[5px] border-nes-gold-text border-t-transparent animate-spin" />
