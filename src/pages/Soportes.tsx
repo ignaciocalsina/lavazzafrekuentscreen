@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Monitor } from 'lucide-react';
-import vending from '@/assets/vending.png';
+import vendingAsset from '@/assets/nespresso-machine.png.asset.json';
+const vending = vendingAsset.url;
 
 const Soportes = () => {
   return (
@@ -24,11 +25,11 @@ const Soportes = () => {
             alt="Máquina de vending"
             className="h-full w-auto object-contain drop-shadow-2xl"
           />
-          {/* CTA "Ver demo" sobre la zona amarilla */}
+          {/* CTA "Ver demo" junto a la pasarela de pago Frekuent */}
           <Link
             to="/demo"
             aria-label="Ver demo interactiva"
-            className="absolute left-[86%] top-[12%] -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-black shadow-lg hover:bg-white transition-colors whitespace-nowrap"
+            className="absolute left-[86%] top-[30%] -translate-y-1/2 inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-black shadow-lg hover:bg-white transition-colors whitespace-nowrap animate-pulse"
           >
             <Monitor className="w-3.5 h-3.5" />
             Ver demo
