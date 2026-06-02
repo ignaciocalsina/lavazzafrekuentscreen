@@ -38,7 +38,6 @@ export type Screen =
   | 'promo_quantity'
   | 'promo_pay'
   | 'promo_done'
-  | 'coffee_idle'
   | 'coffee_loading'
   | 'coffee_pay'
   | 'coffee_offer'
