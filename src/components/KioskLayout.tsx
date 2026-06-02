@@ -1,34 +1,23 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useApp } from '@/context/AppContext';
-import { Language } from '@/i18n/translations';
-import { Phone, X, PhoneCall, Battery, Wifi, ChevronDown } from 'lucide-react';
-
-const langLabels: Record<Language, string> = { es: 'ES', en: 'EN', fr: 'FR', de: 'DE' };
-const langFlags: Record<Language, string> = { es: '🇪🇸', en: '🇬🇧', fr: '🇫🇷', de: '🇩🇪' };
-const langOrder: Language[] = ['es', 'en', 'fr', 'de'];
+import React, { useState } from 'react';
+import { useApp, MockUserState } from '@/context/AppContext';
 
 const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { language, setLanguage, t, processing, screen, kioskMode, setKioskMode } = useApp();
-  const [contactOpen, setContactOpen] = useState(false);
-  const [callbackRequested, setCallbackRequested] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const isAd = screen === 'ad';
-  const langRef = useRef<HTMLDivElement>(null);
+  const { processing, kioskMode, setKioskMode, mockState, setMockState } = useApp();
+  const [devOpen, setDevOpen] = useState(false);
 
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
+  const cycle: Record<MockUserState, MockUserState> = { balance: 'bundle', bundle: 'empty', empty: 'balance' };
+  const labels: Record<MockUserState, string> = {
+    balance: 'Saldo 10 €',
+    bundle: '3 cafés bono',
+    empty: 'Sin saldo',
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden gap-4">
-      {/* Tabs encima del bezel — selector de flujo */}
+      {/* Tabs */}
       <div className="inline-flex rounded-full bg-[#2a2a2a] p-1 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
         {[
-          { id: 'promo' as const, label: 'Carrusel de ofertas' },
+          { id: 'promo' as const, label: 'Anuncios Nespresso' },
           { id: 'coffee' as const, label: 'Pago de café' },
         ].map(tab => {
           const active = kioskMode === tab.id;
@@ -37,15 +26,39 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               key={tab.id}
               onClick={() => setKioskMode(tab.id)}
               className={`px-5 py-2 rounded-full text-xs font-semibold transition-all ${
-                active
-                  ? 'bg-white text-[#1a1a1a] shadow'
-                  : 'text-white/60 hover:text-white/90'
+                active ? 'bg-white text-[#1a1a1a] shadow' : 'text-white/60 hover:text-white/90'
               }`}
             >
               {tab.label}
             </button>
           );
         })}
+
+        {/* Dev toggle */}
+        <div className="relative ml-1 flex items-center">
+          <button
+            onClick={() => setDevOpen(o => !o)}
+            className="px-3 py-2 rounded-full text-[10px] font-medium text-white/50 hover:text-white/80 border border-white/10"
+            title="Estado simulado del usuario"
+          >
+            ⚙ {labels[mockState]}
+          </button>
+          {devOpen && (
+            <div className="absolute top-full left-0 mt-1 bg-[#2a2a2a] border border-white/10 rounded-lg p-1.5 z-50 min-w-[140px]">
+              {(Object.keys(labels) as MockUserState[]).map(k => (
+                <button
+                  key={k}
+                  onClick={() => { setMockState(k); setDevOpen(false); }}
+                  className={`w-full text-left px-2 py-1 rounded text-[10px] ${
+                    mockState === k ? 'bg-white text-[#1a1a1a] font-bold' : 'text-white/80 hover:bg-white/10'
+                  }`}
+                >
+                  {labels[k]}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <div
@@ -58,105 +71,10 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         />
         <div className="absolute bottom-[55px] left-[22px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-10" />
 
-        <div className="relative w-[616px] h-[370px] rounded-[20px] overflow-hidden bg-background flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
-          {/* Status bar */}
-          {!isAd && (
-            <div className="flex items-center justify-between px-3 py-1 bg-muted/50 text-muted-foreground text-[9px] font-medium shrink-0">
-              <span className="font-semibold">9:41</span>
-              <div className="flex items-center gap-1.5">
-                <Wifi className="w-3 h-3" />
-                <Battery className="w-3.5 h-3.5" />
-                <div ref={langRef} className="relative ml-1">
-                  <button
-                    onClick={() => setLangOpen(!langOpen)}
-                    className="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-primary text-primary-foreground text-[9px] font-bold transition-all active:scale-95"
-                  >
-                    {langLabels[language]}
-                    <ChevronDown className="w-2.5 h-2.5" />
-                  </button>
-                  {langOpen && (
-                    <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-lg shadow-lg overflow-hidden z-50 min-w-[100px]">
-                      {langOrder.map(lang => (
-                        <button
-                          key={lang}
-                          onClick={() => { setLanguage(lang); setLangOpen(false); }}
-                          className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors hover:bg-muted ${
-                            language === lang ? 'bg-primary/10 text-primary font-bold' : 'text-foreground'
-                          }`}
-                        >
-                          <span>{langFlags[lang]}</span>
-                          <span>{langLabels[lang]}</span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Main content */}
-          <main className={`flex-1 overflow-hidden flex flex-col scrollbar-none ${isAd ? '' : 'px-4 pt-2 pb-1'}`}>
+        <div className="relative w-[616px] h-[370px] rounded-[20px] overflow-hidden bg-nes-coffee flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
+          <main className="flex-1 overflow-hidden flex flex-col scrollbar-none">
             {children}
           </main>
-
-          {/* Powered by Frekuent — tiny strip */}
-          {!isAd && (
-            <div className="shrink-0 pb-3 text-center">
-              <p className="text-[8px] text-muted-foreground">Powered by <span className="font-semibold">Frekuent</span></p>
-            </div>
-          )}
-
-          {/* Contact Modal */}
-          {contactOpen && (
-            <div className="absolute inset-0 z-50 flex items-center justify-center bg-foreground/40 backdrop-blur-sm">
-              <div className="bg-card rounded-2xl shadow-2xl w-[80%] p-4 animate-scale-in">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="text-base font-bold">{t('contact.title')}</h2>
-                  <button
-                    onClick={() => { setContactOpen(false); setCallbackRequested(false); }}
-                    className="w-7 h-7 rounded-full bg-foreground flex items-center justify-center active:scale-95 transition-transform"
-                  >
-                    <X className="w-3.5 h-3.5 text-background" />
-                  </button>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5">
-                  <div className="flex items-center gap-2 p-2.5 rounded-xl bg-muted">
-                    <Phone className="w-4 h-4 text-primary" />
-                    <div>
-                      <p className="text-[10px] text-muted-foreground">{t('contact.phone')}</p>
-                      <p className="text-xs font-semibold">+34 900 100 INP</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 p-2.5 rounded-xl bg-muted">
-                    <div className="w-4 h-4 rounded bg-primary flex items-center justify-center">
-                      <span className="text-primary-foreground text-[7px] font-bold">ID</span>
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-muted-foreground">{t('contact.lockerId')}</p>
-                      <p className="text-xs font-semibold">LCK-MAD-0042</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-2.5 mt-2 rounded-xl border border-border">
-                  <p className="font-semibold text-xs mb-1">{t('contact.remoteAssistance')}</p>
-                  <p className="text-[10px] text-muted-foreground mb-1.5">{t('contact.status')}</p>
-                  <button
-                    onClick={() => setCallbackRequested(true)}
-                    disabled={callbackRequested}
-                    className={`w-full flex items-center justify-center gap-1.5 py-1.5 rounded-xl font-semibold text-xs transition-all ${
-                      callbackRequested
-                        ? 'bg-success/10 text-success'
-                        : 'bg-primary text-primary-foreground active:scale-95'
-                    }`}
-                  >
-                    <PhoneCall className="w-3.5 h-3.5" />
-                    {callbackRequested ? t('contact.callbackRequested') : t('contact.requestCallback')}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
