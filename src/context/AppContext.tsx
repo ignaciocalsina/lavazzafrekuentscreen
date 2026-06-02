@@ -110,7 +110,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     paymentAmount: 0,
     paymentInsurance: 0,
     promotionCode: null,
-    selectedPromotionId: 'barca',
+    selectedPromotionId: 'originals',
   });
 
   const t = useCallback((key: string): string => {

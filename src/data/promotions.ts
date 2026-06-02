@@ -1,9 +1,10 @@
-import barcaVideo from '@/assets/barca-led-ad.mp4.asset.json';
-import missionVideo from '@/assets/promo-mission.mp4.asset.json';
-import tennisVideo from '@/assets/promo-tennis.mp4.asset.json';
-import movistarVideo from '@/assets/promo-movistar.mp4.asset.json';
+import originals from '@/assets/nespresso-originals.jpg.asset.json';
+import vertuo from '@/assets/nespresso-vertuo.jpg.asset.json';
+import limited from '@/assets/nespresso-limited.jpg.asset.json';
+import aeroccino from '@/assets/nespresso-aeroccino.jpg.asset.json';
+import pro from '@/assets/nespresso-pro.jpg.asset.json';
 
-export type PromotionId = 'barca' | 'mission' | 'tennis' | 'movistar';
+export type PromotionId = 'originals' | 'vertuo' | 'limited' | 'aeroccino' | 'pro';
 
 export type MediaType = 'video' | 'image';
 
@@ -19,40 +20,49 @@ export interface Promotion {
 
 export const PROMOTIONS: Promotion[] = [
   {
-    id: 'barca',
-    title: 'Barça - Betis',
-    subtitle: 'Mira el próximo Barça vs Betis al mejor precio',
-    price: 4.99,
-    originalPrice: 9.99,
-    mediaUrl: barcaVideo.url,
-    mediaType: 'video',
+    id: 'originals',
+    title: 'Cápsulas Originals',
+    subtitle: 'Pack 50 cápsulas · Intensidades del 4 al 11',
+    price: 19.50,
+    originalPrice: 24.50,
+    mediaUrl: originals.url,
+    mediaType: 'image',
   },
   {
-    id: 'mission',
-    title: 'Misión Imposible',
-    subtitle: 'Disfruta de la 3era entrega de Misión Impossible al mejor precio',
-    price: 3.99,
-    originalPrice: 6.99,
-    mediaUrl: missionVideo.url,
-    mediaType: 'video',
+    id: 'vertuo',
+    title: 'Cápsulas Vertuo',
+    subtitle: 'Pack 30 cápsulas · Espresso, Gran Lungo y Mug',
+    price: 22.90,
+    originalPrice: 28.90,
+    mediaUrl: vertuo.url,
+    mediaType: 'image',
   },
   {
-    id: 'tennis',
-    title: 'Alcaraz vs Djokovic',
-    subtitle: 'Mira la final ATP al mejor precio',
-    price: 5.99,
-    originalPrice: 9.99,
-    mediaUrl: tennisVideo.url,
-    mediaType: 'video',
+    id: 'limited',
+    title: 'Edición Limitada Festive',
+    subtitle: 'Aromas de invierno · Disponible por tiempo limitado',
+    price: 14.90,
+    originalPrice: 19.90,
+    mediaUrl: limited.url,
+    mediaType: 'image',
   },
   {
-    id: 'movistar',
-    title: 'Movistar Plus +',
-    subtitle: '50% dto. los 2 primeros meses',
-    price: 4.99,
-    originalPrice: 9.99,
-    mediaUrl: movistarVideo.url,
-    mediaType: 'video',
+    id: 'aeroccino',
+    title: 'Aeroccino 4',
+    subtitle: 'Espumador de leche fría y caliente',
+    price: 99.00,
+    originalPrice: 129.00,
+    mediaUrl: aeroccino.url,
+    mediaType: 'image',
+  },
+  {
+    id: 'pro',
+    title: 'Máquina Momento Pro',
+    subtitle: 'Para tu oficina · Conectividad smart',
+    price: 449.00,
+    originalPrice: 549.00,
+    mediaUrl: pro.url,
+    mediaType: 'image',
   },
 ];
 
