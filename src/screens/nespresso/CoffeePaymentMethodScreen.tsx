@@ -16,7 +16,7 @@ const CoffeePaymentMethodScreen = () => {
   const pick = (m: PaymentMethod) => () => {
     setPaymentMethod(m);
     if (m === 'normal') navigate('coffee_normal_pay');
-    else if (m === 'balance') navigate('coffee_balance_pay');
+    else if (m === 'balance') navigate('coffee_balance_summary');
     else navigate('coffee_coupon_pay');
   };
 

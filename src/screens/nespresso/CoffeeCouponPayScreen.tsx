@@ -1,19 +1,12 @@
-import { useApp } from '@/context/AppContext';
+import { useApp, COUPON_INITIAL } from '@/context/AppContext';
 import { ArrowLeft, Ticket } from 'lucide-react';
 import { FlowBackground, KioskHeader } from '@/components/NespressoBrand';
 
 const CoffeeCouponPayScreen = () => {
-  const { navigate, couponRemaining, consumeCoupon, orderType } = useApp();
-  const canRedeem = couponRemaining > 0;
+  const { navigate, orderType } = useApp();
   const productLabel =
     orderType === 'bono_semanal' ? 'Bono semanal' :
     orderType === 'bono_mensual' ? 'Bono mensual' : 'Café Nespresso';
-
-  const redeem = () => {
-    if (!canRedeem) return;
-    consumeCoupon();
-    navigate('coffee_processing');
-  };
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
@@ -26,22 +19,19 @@ const CoffeeCouponPayScreen = () => {
         <KioskHeader caption={<>Cupones</>} tagline="Acumulas ventajas con esta operación." />
       </div>
 
-      <div className="relative z-10 flex-1 flex items-center justify-center gap-6 px-8">
-        <div className="flex-1 rounded-xl bg-white/8 border border-white/15 p-4 text-white text-[13px] backdrop-blur-sm text-center">
-          <Ticket className="w-10 h-10 mx-auto text-nes-gold-text" strokeWidth={1.5} />
-          <p className="mt-2 opacity-80">Cupón activo</p>
-          <p className="font-serif-nes text-[28px] text-nes-gold-text leading-none">{couponRemaining}</p>
-          <p className="text-[11px] opacity-75">cafés disponibles</p>
-          <div className="border-t border-white/15 my-2" />
-          <p className="text-[12px]">Producto: <span className="font-semibold">{productLabel}</span></p>
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-3 px-8 pb-3">
+        <div className="w-[70%] rounded-xl bg-white/8 border border-white/15 p-3 text-white text-[13px] backdrop-blur-sm text-center">
+          <Ticket className="w-8 h-8 mx-auto text-nes-gold-text" strokeWidth={1.5} />
+          <p className="mt-1 opacity-80 text-[11px] tracking-[0.2em] font-semibold">CUPÓN ACTIVO</p>
+          <p className="font-serif-nes text-[26px] text-nes-gold-text leading-none">{COUPON_INITIAL}</p>
+          <p className="text-[11px] opacity-75">cafés disponibles · {productLabel}</p>
         </div>
 
         <button
-          onClick={redeem}
-          disabled={!canRedeem}
-          className="flex flex-col items-center bg-nes-gold text-nes-cream rounded-full px-6 py-4 shadow-lg active:scale-95 transition-transform disabled:opacity-40"
+          onClick={() => navigate('coffee_processing')}
+          className="bg-nes-gold text-nes-cream rounded-full px-7 py-2.5 shadow-lg active:scale-95 transition-transform flex flex-col items-center"
         >
-          <span className="font-serif-nes text-[15px] tracking-[0.15em]">CANJEAR CAFÉ</span>
+          <span className="font-serif-nes text-[14px] tracking-[0.15em]">CANJEAR CAFÉ</span>
           <span className="text-[10px] opacity-85">Sin pago adicional</span>
         </button>
       </div>

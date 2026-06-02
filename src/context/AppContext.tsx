@@ -3,9 +3,11 @@ import { Language, translations } from '@/i18n/translations';
 
 export type Screen =
   | 'ad'
+  | 'coffee_preparing'
   | 'coffee_order'
   | 'coffee_payment_method'
   | 'coffee_normal_pay'
+  | 'coffee_balance_summary'
   | 'coffee_balance_pay'
   | 'coffee_coupon_pay'
   | 'coffee_processing'
@@ -17,7 +19,9 @@ export type OrderType = 'puntual' | 'bono_semanal' | 'bono_mensual';
 export type BundleType = 'week' | 'month';
 export type PaymentMethod = 'normal' | 'balance' | 'coupon';
 
-export const COFFEE_PRICE = 1.5;
+// Pedido en curso (detectado en la cafetera Nespresso)
+export const CURRENT_COFFEE_NAME = 'Cappuccino';
+export const COFFEE_PRICE = 3.5;
 export const BONO_WEEK_PRICE = 6;
 export const BONO_MONTH_PRICE = 22.5;
 export const BONO_WEEK_COFFEES = 5;
@@ -48,7 +52,6 @@ interface AppContextType extends AppState {
   setOrderType: (t: OrderType) => void;
   setBundleType: (t: BundleType | null) => void;
   setPaymentMethod: (m: PaymentMethod | null) => void;
-  consumeCoupon: () => void;
   getOrderAmount: () => number;
 }
 
@@ -94,7 +97,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({
       ...s,
       kioskMode: m,
-      screen: m === 'promo' ? 'ad' : 'coffee_order',
+      // Al entrar en modo café, primero pasamos por la pantalla de "procesando tu selección"
+      screen: m === 'promo' ? 'ad' : 'coffee_preparing',
       processing: false,
       orderType: 'puntual',
       bundleType: null,
@@ -105,7 +109,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setOrderType = useCallback((orderType: OrderType) => setState(s => ({ ...s, orderType })), []);
   const setBundleType = useCallback((bundleType: BundleType | null) => setState(s => ({ ...s, bundleType })), []);
   const setPaymentMethod = useCallback((paymentMethod: PaymentMethod | null) => setState(s => ({ ...s, paymentMethod })), []);
-  const consumeCoupon = useCallback(() => setState(s => ({ ...s, couponRemaining: Math.max(0, s.couponRemaining - 1) })), []);
 
   const getOrderAmount = useCallback(() => {
     if (state.orderType === 'bono_semanal') return BONO_WEEK_PRICE;
@@ -117,7 +120,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider value={{
       ...state, t, setLanguage, navigate, goHome, setProcessing,
       setKioskMode, setOrderType, setBundleType, setPaymentMethod,
-      consumeCoupon, getOrderAmount,
+      getOrderAmount,
     }}>
       {children}
     </AppContext.Provider>
