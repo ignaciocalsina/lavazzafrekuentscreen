@@ -2,15 +2,12 @@ import { useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
-const CoffeeProcessingScreen = () => {
-  const { navigate, paymentMethod } = useApp();
+const CoffeePreparingScreen = () => {
+  const { navigate } = useApp();
   useEffect(() => {
-    const id = setTimeout(() => navigate('coffee_brewing'), 2000);
+    const id = setTimeout(() => navigate('coffee_order'), 1600);
     return () => clearTimeout(id);
   }, [navigate]);
-
-  const isPayment = paymentMethod === 'normal' || paymentMethod === 'balance';
-  const label = isPayment ? 'Procesando tu pago…' : 'Procesando tu selección…';
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
@@ -23,11 +20,11 @@ const CoffeeProcessingScreen = () => {
           <div className="absolute inset-0 rounded-full border-[5px] border-nes-gold-text/15" />
           <div className="absolute inset-0 rounded-full border-[5px] border-nes-gold-text border-t-transparent animate-spin" />
         </div>
-        <p className="font-serif-nes text-white text-lg tracking-[0.08em]">{label}</p>
+        <p className="font-serif-nes text-white text-lg tracking-[0.08em]">Procesando tu selección…</p>
         <p className="text-nes-gold-text text-[11px] tracking-[0.3em] font-semibold">UN MOMENTO, POR FAVOR</p>
       </div>
     </div>
   );
 };
 
-export default CoffeeProcessingScreen;
+export default CoffeePreparingScreen;
