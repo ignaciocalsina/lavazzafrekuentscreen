@@ -30,20 +30,20 @@ const MarketplacePaymentScreen = () => {
         <p className="text-[11px] text-muted-foreground tabular-nums">{quantity} × {fmt(unit)}</p>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-2">
-        <p className="text-4xl font-extrabold text-primary tabular-nums">{fmt(total)}</p>
+      <div className="flex-1 flex flex-col items-center justify-center gap-3">
+        <p className="text-5xl font-extrabold text-primary tabular-nums">{fmt(total)}</p>
 
         {processing ? (
           <div className="flex flex-col items-center gap-2">
-            <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-            <p className="text-muted-foreground text-xs">{t('send.payment.processing')}</p>
+            <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+            <p className="text-muted-foreground text-sm">{t('send.payment.processing')}</p>
           </div>
         ) : (
           <>
             <button onClick={handlePayment} className="active:scale-95 transition-transform nfc-pulse">
-              <img src={contactlessIcon} alt="Contactless" className="w-20 h-auto" />
+              <img src={contactlessIcon} alt="Contactless" className="w-28 h-auto" />
             </button>
-            <p className="text-[11px] text-muted-foreground text-center">{t('send.payment.instruction')}</p>
+            <p className="text-sm text-muted-foreground text-center">{t('send.payment.instruction')}</p>
           </>
         )}
       </div>

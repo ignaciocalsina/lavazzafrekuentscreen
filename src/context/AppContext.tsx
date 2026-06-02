@@ -37,7 +37,14 @@ export type Screen =
   | 'payment_done'
   | 'promo_quantity'
   | 'promo_pay'
-  | 'promo_done';
+  | 'promo_done'
+  | 'coffee_idle'
+  | 'coffee_loading'
+  | 'coffee_pay'
+  | 'coffee_offer'
+  | 'coffee_done';
+
+export type KioskMode = 'promo' | 'coffee';
 
 export type Flow =
   | 'collect'
@@ -48,6 +55,7 @@ export type Flow =
   | 'marketplace'
   | 'payment'
   | 'promotion'
+  | 'coffee'
   | null;
 
 export type MarketplaceCardType = 'digital' | 'physical' | null;
@@ -74,6 +82,8 @@ interface AppState {
   promotionCode: string | null;
   selectedPromotionId: PromotionId;
   quantity: number;
+  kioskMode: KioskMode;
+  coffeeOfferAccepted: boolean;
 }
 
 interface AppContextType extends AppState {
@@ -91,6 +101,8 @@ interface AppContextType extends AppState {
   setPromotionCode: (code: string | null) => void;
   setSelectedPromotion: (id: PromotionId) => void;
   setQuantity: (n: number) => void;
+  setKioskMode: (m: KioskMode) => void;
+  setCoffeeOfferAccepted: (v: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -116,6 +128,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     promotionCode: null,
     selectedPromotionId: 'originals',
     quantity: 1,
+    kioskMode: 'promo',
+    coffeeOfferAccepted: false,
   });
 
   const t = useCallback((key: string): string => {
@@ -144,6 +158,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       paymentInsurance: 0,
       promotionCode: null,
       quantity: 1,
+      kioskMode: 'promo',
+      coffeeOfferAccepted: false,
     }));
   }, []);
 
@@ -188,6 +204,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({ ...s, quantity: Math.max(1, Math.min(20, n)) }));
   }, []);
 
+  const setKioskMode = useCallback((m: KioskMode) => {
+    setState(s => ({
+      ...s,
+      kioskMode: m,
+      screen: m === 'promo' ? 'ad' : 'coffee_idle',
+      flow: m === 'promo' ? null : 'coffee',
+      processing: false,
+      coffeeOfferAccepted: false,
+      quantity: 1,
+    }));
+  }, []);
+
+  const setCoffeeOfferAccepted = useCallback((v: boolean) => {
+    setState(s => ({ ...s, coffeeOfferAccepted: v }));
+  }, []);
+
   return (
     <AppContext.Provider value={{
       ...state,
@@ -205,6 +237,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPromotionCode,
       setSelectedPromotion,
       setQuantity,
+      setKioskMode,
+      setCoffeeOfferAccepted,
     }}>
       {children}
     </AppContext.Provider>

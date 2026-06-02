@@ -22,7 +22,7 @@ const MarketplaceQuantityScreen = () => {
         <h1 className="text-base font-bold leading-tight">{brand?.name}</h1>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center gap-3 px-4">
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 px-4">
         <h2 className="text-sm font-bold">{t('quantity.title')}</h2>
         <QuantityStepper value={quantity} onChange={setQuantity} />
 
@@ -37,10 +37,8 @@ const MarketplaceQuantityScreen = () => {
             <span className="font-extrabold text-primary tabular-nums">{fmt(subtotal)}</span>
           </div>
         </div>
-      </div>
 
-      <div className="flex justify-center">
-        <div className="flex gap-2 w-full max-w-xs">
+        <div className="flex gap-2 w-full max-w-xs mt-2">
           <button onClick={goHome} className="flex-1 py-2 rounded-xl bg-muted text-foreground font-bold text-sm active:scale-95 transition-transform">
             {t('id.back')}
           </button>
