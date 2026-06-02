@@ -202,6 +202,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({ ...s, quantity: Math.max(1, Math.min(20, n)) }));
   }, []);
 
+  const setKioskMode = useCallback((m: KioskMode) => {
+    setState(s => ({
+      ...s,
+      kioskMode: m,
+      screen: m === 'promo' ? 'ad' : 'coffee_idle',
+      flow: m === 'promo' ? null : 'coffee',
+      processing: false,
+      coffeeOfferAccepted: false,
+      quantity: 1,
+    }));
+  }, []);
+
+  const setCoffeeOfferAccepted = useCallback((v: boolean) => {
+    setState(s => ({ ...s, coffeeOfferAccepted: v }));
+  }, []);
+
   return (
     <AppContext.Provider value={{
       ...state,
@@ -219,6 +235,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setPromotionCode,
       setSelectedPromotion,
       setQuantity,
+      setKioskMode,
+      setCoffeeOfferAccepted,
     }}>
       {children}
     </AppContext.Provider>
