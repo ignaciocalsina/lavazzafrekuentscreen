@@ -1,5 +1,5 @@
-import originals from '@/assets/nespresso-originals-real.png.asset.json';
-import vertuo from '@/assets/nespresso-vertuo-real.png.asset.json';
+import originals from '@/assets/nespresso-originals-anim.jpg';
+import vertuo from '@/assets/nespresso-vertuo-anim.jpg';
 import limited from '@/assets/nespresso-limited.jpg.asset.json';
 import planBarista from '@/assets/nespresso-plan-barista.jpg';
 import planRitual from '@/assets/nespresso-plan-ritual.jpg';
