@@ -8,11 +8,11 @@ const langFlags: Record<Language, string> = { es: '🇪🇸', en: '🇬🇧', fr
 const langOrder: Language[] = ['es', 'en', 'fr', 'de'];
 
 const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { language, setLanguage, t, processing, screen } = useApp();
+  const { language, setLanguage, t, processing, screen, kioskMode, setKioskMode } = useApp();
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackRequested, setCallbackRequested] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const isAd = screen === 'ad';
+  const isAd = screen === 'ad' || screen === 'coffee_idle';
   const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
