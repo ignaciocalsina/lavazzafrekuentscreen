@@ -47,9 +47,9 @@ const CoffeeBalanceSummaryScreen = () => {
             <span>− {fmt(applied)}</span>
           </div>
           <div className="border-t border-white/15 my-1" />
-          <div className="flex justify-between py-1 font-serif-nes text-[16px]">
-            <span>Importe final</span>
-            <span className="text-nes-gold-text">{fmt(pending)}</span>
+          <div className="flex justify-between items-baseline py-1 font-serif-nes">
+            <span className="text-[16px]">Importe final</span>
+            <span className="text-nes-gold-text text-[22px] leading-none">{fmt(pending)}</span>
           </div>
 
           <button
