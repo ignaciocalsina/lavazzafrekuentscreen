@@ -32,19 +32,19 @@ const NespressoAdScreen = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-black/10" />
 
       <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
-        <NespressoLogo className="!text-[12px] !tracking-[0.32em]" />
+        <NespressoLogo className="!text-[15px] !tracking-[0.34em]" />
       </div>
 
-      <div key={`text-${i}`} className="absolute inset-0 z-10 flex flex-col items-start justify-center pl-8 pr-[45%] animate-fade-in">
-        <p className="text-[9px] tracking-[0.32em] text-nes-gold-text font-semibold mb-2">{s.eyebrow}</p>
-        <h2 className="font-serif-nes text-[28px] leading-[1.05] text-white">{s.title}</h2>
-        <h2 className="font-serif-nes italic text-[28px] leading-[1.05] text-nes-gold-text">{s.em}</h2>
-        <div className="mt-3 h-px w-16 bg-nes-gold-text/70" />
+      <div key={`text-${i}`} className="absolute inset-0 z-10 flex flex-col items-start justify-center pl-8 pr-[40%] animate-fade-in">
+        <p className="text-[12px] tracking-[0.32em] text-nes-gold-text font-semibold mb-2">{s.eyebrow}</p>
+        <h2 className="font-serif-nes text-[37px] leading-[1.05] text-white">{s.title}</h2>
+        <h2 className="font-serif-nes italic text-[37px] leading-[1.05] text-nes-gold-text">{s.em}</h2>
+        <div className="mt-3 h-px w-20 bg-nes-gold-text/70" />
       </div>
 
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
         {SLIDES.map((_, idx) => (
-          <div key={idx} className={`h-1 rounded-full transition-all ${idx === i ? 'w-6 bg-nes-gold-text' : 'w-1.5 bg-white/40'}`} />
+          <div key={idx} className={`h-1.5 rounded-full transition-all ${idx === i ? 'w-8 bg-nes-gold-text' : 'w-2 bg-white/40'}`} />
         ))}
       </div>
     </div>

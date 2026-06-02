@@ -1,60 +1,63 @@
-# Cambios solicitados
+## Cambios solicitados
 
-## 1. Pantalla de anuncios (`NespressoAdScreen`)
-- Generar **5 imágenes distintas** (una por slide) con `imagegen--generate_image`, guardadas en `src/assets/nespresso-ad-1.jpg` … `nespresso-ad-5.jpg`. Cada una alineada con su mensaje:
-  1. Experiencia / café premium servido.
-  2. Ritual / taza humeante con cápsulas.
-  3. Bono semanal / 5 tazas alineadas.
-  4. Bono mensual / colección de cápsulas variadas.
-  5. Ahorro / café con grano y elegancia editorial.
-- El carrusel rotará la imagen junto al texto (fade + ken-burns por slide).
+### 1. `NespressoAdScreen` (pantalla de anuncios)
+- Logo "NESPRESSO" superior: +20% tamaño (de `text-[12px]` → `~text-[15px]`, tracking proporcional).
+- Eyebrow ("BONO SEMANAL", "EXPERIENCIA"…): +30%.
+- Título `h2` y línea italic dorada: +30% (de `text-[28px]` → `~text-[37px]`).
+- Barra de progreso de slides (puntos abajo): +30% en alto y ancho.
 
-## 2. Pantalla `CoffeeOrderScreen` (3 tarjetas + pedido)
-- **Eliminar** el `BrandFooter` ("NESPRESSO × FREKUENT") de **todas las pantallas**.
-- **Eliminar** el subtítulo duplicado `ESPRESSO NESPRESSO` (mantener "TU PEDIDO" + precio + "Elige cómo quieres pagarlo").
-- Añadir **imagen de fondo** mezclando 2-3 de los nuevos anuncios (mosaico tríptico con overlay oscuro).
-- Hacer las **3 tarjetas ~25% más altas** manteniendo el inicio donde está; crecen hacia abajo aprovechando el espacio liberado por el footer.
-- Aumentar todos los textos internos ~20% (título, descripción, CTA).
-- En **Bono Semanal** y **Bono Mensual**: sustituir el CTA pequeño por un indicador "TOCA PARA COMPRAR" con icono mano y animación pulse — toda la tarjeta es interactiva.
+### 2. `CoffeeOrderScreen` (pedido con 3 tarjetas)
+- **Header**:
+  - Eliminar el chip "ACUMULA VENTAJAS" (lado derecho).
+  - Quitar "TU PEDIDO".
+  - Mostrar arriba (en color dorado `nes-gold-text`, no blanco): `Importe: 1,50 €`.
+  - Debajo en blanco: `Elige cómo quieres pagarlo`.
+- **3 tarjetas**: reducir altura un 25% manteniendo la parte inferior anclada (alinear `items-end` o reducir desde arriba, padding-top menor, contenido empuja hacia abajo). Concretamente: `h-[245px]` → `~h-[184px]`, `pt-` reducido, layout interno comprimido hacia abajo.
 
-## 3. Eliminar pantallas intermedias del flujo bono
-- Borrar `coffee_bundle_summary` y el paso de identificación cuando se viene de un bono.
-- Al pulsar Bono Semanal/Mensual → ir **directamente a `coffee_bundle_pay`**.
-- Eliminar `CoffeeBundleSummaryScreen.tsx`. `CoffeeIdentifyScreen` queda solo accesible desde pago puntual con cuenta.
+### 3. Headers consistentes en pantallas de pago/elección
+Aplicar el MISMO header que `CoffeeOrderScreen` (sin "TU PEDIDO", sin subtítulos extra, sin `OrderHeader`):
+- `CoffeePayChoiceScreen` — header con `NESPRESSO` + `Importe: 1,50 €` (dorado) + `Elige cómo quieres pagarlo` (blanco).
+- `CoffeeBundlePayScreen` — header con `NESPRESSO` + el resumen actual del bono (`5 cafés Nespresso · Paga 4, llévate 5` / mensual) + `Elige cómo quieres pagarlo`. Sin importe "1,50".
+- (`CoffeeAccountOptionsScreen` se elimina, ver punto 6.)
 
-## 4. `CoffeeBundlePayScreen` (2 opciones de pago)
-- Reducir el alto de las 2 cajas (Tarjeta / Saldo) al **~60% del actual**.
-- Aumentar el texto interno ~20%.
-- Añadir una **banda-resumen compacta arriba** con nombre del bono, nº de cafés y total — recoge lo útil de la pantalla `bundle_summary` eliminada.
+### 4. Bloques "Pagar con tarjeta" / "Usar fidelización" (en `CoffeePayChoiceScreen` y `CoffeeBundlePayScreen`)
+- Altura: −20%, manteniendo parte inferior anclada (reducir desde arriba).
+- Ancho: −20% cada bloque. Implementar centrando el grid: contenedor con `max-w-[80%] mx-auto` o columnas `grid-cols-[1fr_1fr]` con `px-` extra.
+- "Usar fidelización": cambiar el icono `UserCircle` por el wordmark **NESPRESSO** (componente `NespressoLogo` pequeño) en la zona superior donde estaba el icono.
+- Al pulsar "Usar fidelización" → ir directamente a `coffee_processing` → `coffee_brewing` → `coffee_ready` (sin pantalla de identificación, sin selección de saldo/bono).
 
-## 5. Nueva pantalla `CoffeeProcessingScreen`
-- Crea screen id `coffee_processing` con spinner circular dorado centrado y texto `Procesando tu selección…`.
-- Duración 2s → navega a `coffee_brewing`.
-- Insertada **después de confirmar el pago** (desde `coffee_card_pay` tras NFC, desde `coffee_bundle_pay` con saldo, y desde `coffee_account_options` en opciones no-tarjeta) y antes de `coffee_brewing`.
+### 5. Eliminar pantalla de identificación
+- Borrar `src/screens/nespresso/CoffeeIdentifyScreen.tsx`.
+- Quitar `coffee_identify` de la unión `Screen` en `AppContext.tsx`.
+- Quitar la ruta en `ScreenRouter.tsx`.
+- Quitar cualquier `navigate('coffee_identify')` restante.
 
-## 6. Pago con tarjeta tras elegir método en bonos
-- En `coffee_bundle_pay`, opción "Tarjeta" → reusa `CoffeeCardPayScreen` con **icono NFC central + pulse** y texto `Acerca tu tarjeta para pagar`. Tras ~1,8s → `coffee_processing` → `coffee_brewing`.
-- El importe mostrado en `CoffeeCardPayScreen` se calcula dinámicamente según `orderType` (1,50 € / 6 € / 22,50 €).
+### 6. Eliminar pantalla de opciones de cuenta (saldo / bono / tarjeta)
+- Borrar `src/screens/nespresso/CoffeeAccountOptionsScreen.tsx`.
+- Quitar `coffee_account_options` de `Screen` y de `ScreenRouter`.
+- Eliminar referencias a `mockState`, `MOCK_BALANCE`, `MOCK_BUNDLE_REMAINING` y el toggle dev ⚙ en `KioskLayout` (y constantes en `AppContext` si ya no se usan).
+- `CoffeeBundlePayScreen`: como ya no hay saldo, dejar solo **un** botón "Pagar con tarjeta" + "Usar fidelización" (misma estructura que `CoffeePayChoiceScreen`).
 
-## 7. Limpieza
-- Quitar `BrandFooter` de todas las pantallas (mantener la exportación del componente sin uso).
-- Actualizar `AppContext` (`Screen` union): añadir `coffee_processing`, quitar `coffee_bundle_summary`.
-- Actualizar `ScreenRouter` en consecuencia.
+### 7. `CoffeeReadyScreen`
+- Quitar lógica de variantes por saldo/bono. Mantener mensaje único genérico ("Tu café está listo") y subtítulo según `orderType` (puntual / bono semanal / bono mensual) sin contadores de saldo.
 
-## Detalles técnicos
-- Imágenes: `imagegen--generate_image` quality `standard`, 1280×768, estilo editorial Nespresso (tonos cálidos marrón/dorado, fotografía cinematográfica, sin texto en la imagen).
-- Spinner: borde dorado con `border-t-transparent` + `animate-spin`, 80px.
-- Indicador "toca": `animate-pulse` con icono `Hand` de lucide.
-- Tipografía: subir tamaños (`text-[10px]` → `text-[12px]`, `text-[13px]` → `text-[16px]`).
-- Memoria: actualizar `mem://index.md` con el nuevo flujo (sin `bundle_summary`, con `coffee_processing`, sin BrandFooter).
-
-## Flujo final
+### 8. Actualizar `mem://index.md`
+Reflejar nuevo flujo simplificado:
 ```
-ad  (carrusel 5 imágenes distintas)
-coffee_order
- ├─ Pagar este café   → coffee_pay_choice → coffee_card_pay → coffee_processing → coffee_brewing → coffee_ready
- │                                       └─ coffee_identify → coffee_account_options ─┬─ tarjeta → coffee_card_pay → coffee_processing → coffee_brewing → coffee_ready
- │                                                                                     └─ saldo/bono → coffee_processing → coffee_brewing → coffee_ready
- ├─ Bono semanal      → coffee_bundle_pay ─┬─ tarjeta → coffee_card_pay → coffee_processing → coffee_brewing → coffee_ready
- └─ Bono mensual      → coffee_bundle_pay  └─ saldo   → coffee_processing → coffee_brewing → coffee_ready
+ad → coffee_order → (puntual) coffee_pay_choice → [card | fidelización] → coffee_card_pay/coffee_processing → coffee_brewing → coffee_ready
+ad → coffee_order → (bono semanal/mensual) coffee_bundle_pay → [card | fidelización] → ... → coffee_ready
 ```
+Eliminar referencias a `coffee_identify`, `coffee_account_options`, `mockState`, `MOCK_BALANCE`, `MOCK_BUNDLE_REMAINING`.
+
+### Archivos a tocar
+- `src/screens/nespresso/NespressoAdScreen.tsx` (tamaños)
+- `src/screens/nespresso/CoffeeOrderScreen.tsx` (header + altura tarjetas)
+- `src/screens/nespresso/CoffeePayChoiceScreen.tsx` (header + bloques + acción fidelización)
+- `src/screens/nespresso/CoffeeBundlePayScreen.tsx` (header + bloques tipo PayChoice)
+- `src/screens/nespresso/CoffeeReadyScreen.tsx` (limpiar variantes)
+- `src/components/NespressoBrand.tsx` (revisar `OrderHeader`, posiblemente eliminar)
+- `src/context/AppContext.tsx` (unión `Screen`, constantes)
+- `src/screens/ScreenRouter.tsx` (rutas)
+- `src/components/KioskLayout.tsx` (quitar toggle ⚙ `mockState`)
+- **Eliminar**: `CoffeeIdentifyScreen.tsx`, `CoffeeAccountOptionsScreen.tsx`
+- `mem://index.md`

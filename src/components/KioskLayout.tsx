@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
-import { useApp, MockUserState } from '@/context/AppContext';
+import React from 'react';
+import { useApp } from '@/context/AppContext';
 
 const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { processing, kioskMode, setKioskMode, mockState, setMockState } = useApp();
-  const [devOpen, setDevOpen] = useState(false);
-
-  const cycle: Record<MockUserState, MockUserState> = { balance: 'bundle', bundle: 'empty', empty: 'balance' };
-  const labels: Record<MockUserState, string> = {
-    balance: 'Saldo 10 €',
-    bundle: '3 cafés bono',
-    empty: 'Sin saldo',
-  };
+  const { processing, kioskMode, setKioskMode } = useApp();
 
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden gap-4">
@@ -33,32 +25,6 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </button>
           );
         })}
-
-        {/* Dev toggle */}
-        <div className="relative ml-1 flex items-center">
-          <button
-            onClick={() => setDevOpen(o => !o)}
-            className="px-3 py-2 rounded-full text-[10px] font-medium text-white/50 hover:text-white/80 border border-white/10"
-            title="Estado simulado del usuario"
-          >
-            ⚙ {labels[mockState]}
-          </button>
-          {devOpen && (
-            <div className="absolute top-full left-0 mt-1 bg-[#2a2a2a] border border-white/10 rounded-lg p-1.5 z-50 min-w-[140px]">
-              {(Object.keys(labels) as MockUserState[]).map(k => (
-                <button
-                  key={k}
-                  onClick={() => { setMockState(k); setDevOpen(false); }}
-                  className={`w-full text-left px-2 py-1 rounded text-[10px] ${
-                    mockState === k ? 'bg-white text-[#1a1a1a] font-bold' : 'text-white/80 hover:bg-white/10'
-                  }`}
-                >
-                  {labels[k]}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
 
       <div
