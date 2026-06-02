@@ -6,7 +6,7 @@ const CoffeeLoadingScreen = () => {
 
   useEffect(() => {
     setProcessing(true);
-    const id = setTimeout(() => navigate('coffee_pay'), 2000);
+    const id = setTimeout(() => navigate('coffee_offer'), 2000);
     return () => clearTimeout(id);
   }, [navigate, setProcessing]);
 
