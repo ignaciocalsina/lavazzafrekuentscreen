@@ -82,6 +82,8 @@ interface AppState {
   promotionCode: string | null;
   selectedPromotionId: PromotionId;
   quantity: number;
+  kioskMode: KioskMode;
+  coffeeOfferAccepted: boolean;
 }
 
 interface AppContextType extends AppState {
@@ -99,6 +101,8 @@ interface AppContextType extends AppState {
   setPromotionCode: (code: string | null) => void;
   setSelectedPromotion: (id: PromotionId) => void;
   setQuantity: (n: number) => void;
+  setKioskMode: (m: KioskMode) => void;
+  setCoffeeOfferAccepted: (v: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
