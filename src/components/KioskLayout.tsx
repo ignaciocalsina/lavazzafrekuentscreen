@@ -12,7 +12,7 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contactOpen, setContactOpen] = useState(false);
   const [callbackRequested, setCallbackRequested] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const isAd = screen === 'ad' || screen === 'coffee_idle';
+  const isAd = screen === 'ad';
   const langRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
