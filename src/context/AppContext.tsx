@@ -55,7 +55,17 @@ interface AppContextType extends AppState {
   getOrderAmount: () => number;
 }
 
-const AppContext = createContext<AppContextType | null>(null);
+declare global {
+  interface Window {
+    __lovableAppContext__?: React.Context<AppContextType | null>;
+  }
+}
+
+const AppContext =
+  window.__lovableAppContext__ ?? createContext<AppContextType | null>(null);
+
+AppContext.displayName = 'AppContext';
+window.__lovableAppContext__ = AppContext;
 
 export const useApp = () => {
   const ctx = useContext(AppContext);
