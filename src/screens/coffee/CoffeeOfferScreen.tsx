@@ -6,11 +6,11 @@ const CoffeeOfferScreen = () => {
 
   const accept = () => {
     setCoffeeOfferAccepted(true);
-    navigate('coffee_done');
+    navigate('coffee_pay');
   };
   const skip = () => {
     setCoffeeOfferAccepted(false);
-    navigate('coffee_done');
+    navigate('coffee_pay');
   };
 
   return (
