@@ -207,7 +207,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({
       ...s,
       kioskMode: m,
-      screen: m === 'promo' ? 'ad' : 'coffee_idle',
+      screen: m === 'promo' ? 'ad' : 'coffee_loading',
       flow: m === 'promo' ? null : 'coffee',
       processing: false,
       coffeeOfferAccepted: false,
