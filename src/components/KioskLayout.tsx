@@ -39,8 +39,11 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className="flex items-center justify-center h-screen w-screen bg-[#1a1a1a] overflow-hidden">
-      {/* Device bezel */}
-      <div className="relative rounded-[40px] bg-gradient-to-b from-[#e8e8e8] to-[#d4d4d4] shadow-[0_20px_60px_rgba(0,0,0,0.5)]" style={{ padding: '53px 35px 44px 35px' }}>
+      {/* Device bezel — rotated 90° counter-clockwise to landscape */}
+      <div
+        className="relative rounded-[40px] bg-gradient-to-b from-[#e8e8e8] to-[#d4d4d4] shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+        style={{ padding: '53px 35px 44px 35px', transform: 'rotate(-90deg)', transformOrigin: 'center' }}
+      >
         {/* Full-border status indicator */}
         <div
           className="absolute inset-[8px] rounded-[32px] border-[3px] pointer-events-none transition-colors duration-500 z-20"
