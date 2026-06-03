@@ -18,16 +18,23 @@ const CoffeeOrderScreen = () => {
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
       <FlowBackground />
 
-      {/* Header */}
-      <div className="relative z-10 text-center pt-2.5 pb-1.5">
+      {/* Header idéntico al de CoffeePaymentMethodScreen */}
+      <div className="relative z-10 text-center pt-3">
         <NespressoLogo className="!text-[17px] !tracking-[0.34em]" />
-        <p className="mt-1 text-nes-gold-text font-serif-nes text-[18px] leading-tight">
-          {CURRENT_COFFEE_NAME} · Importe {fmt(COFFEE_PRICE)}
+        <p className="mt-2 font-serif-nes text-nes-gold-text text-[26px] leading-none">
+          {CURRENT_COFFEE_NAME}
         </p>
-        <p className="text-white text-[15px] mt-0.5">Selecciona tu método de pago</p>
+        <p className="mt-1 text-white/85 font-serif-nes text-[18px] leading-tight">
+          Importe <span className="font-semibold">{fmt(COFFEE_PRICE)}</span>
+        </p>
       </div>
 
-      <div className="relative z-10 px-3 mt-auto pb-3 grid grid-cols-3 gap-2 h-[184px]">
+      {/* Título de sección, justo encima de los bloques */}
+      <p className="relative z-10 text-center text-white text-[13px] tracking-[0.15em] mt-auto mb-2">
+        SELECCIONA TU MÉTODO DE PAGO
+      </p>
+
+      <div className="relative z-10 px-3 pb-3 grid grid-cols-3 gap-2 h-[160px]">
         {/* Card 1 */}
         <button
           onClick={choose('puntual')}
