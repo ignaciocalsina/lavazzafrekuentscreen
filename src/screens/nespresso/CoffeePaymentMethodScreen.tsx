@@ -65,7 +65,7 @@ const CoffeePaymentMethodScreen = () => {
 
       {/* Caption centrado verticalmente en el hueco disponible */}
       <div className="relative z-10 flex-1 flex items-center justify-center px-4">
-        <p className="font-serif-nes text-nes-gold-text text-[36px] leading-none text-center">
+        <p className="font-serif-nes text-nes-gold-text text-[54px] leading-none text-center">
           {captionLine}
         </p>
       </div>
