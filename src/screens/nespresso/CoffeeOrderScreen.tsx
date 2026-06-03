@@ -21,16 +21,17 @@ const CoffeeOrderScreen = () => {
       {/* Header idéntico al de CoffeePaymentMethodScreen */}
       <div className="relative z-10 text-center pt-3">
         <NespressoLogo className="!text-[17px] !tracking-[0.34em]" />
-        <p className="mt-2 font-serif-nes text-nes-gold-text text-[26px] leading-none">
-          {CURRENT_COFFEE_NAME}
-        </p>
-        <p className="mt-1 text-white/85 font-serif-nes text-[18px] leading-tight">
-          Importe <span className="font-semibold">{fmt(COFFEE_PRICE)}</span>
+      </div>
+
+      {/* Caption centrado verticalmente en el hueco disponible */}
+      <div className="relative z-10 flex-1 flex items-center justify-center px-4">
+        <p className="font-serif-nes text-nes-gold-text text-[36px] leading-none text-center">
+          {CURRENT_COFFEE_NAME} · <span className="font-semibold">{fmt(COFFEE_PRICE)}</span>
         </p>
       </div>
 
       {/* Título de sección, justo encima de los bloques */}
-      <p className="relative z-10 text-center text-white text-[13px] tracking-[0.15em] mt-auto mb-2">
+      <p className="relative z-10 text-center text-white text-[13px] tracking-[0.15em] mb-2">
         SELECCIONA TU MÉTODO DE PAGO
       </p>
 
