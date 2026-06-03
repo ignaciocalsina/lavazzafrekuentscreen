@@ -12,23 +12,25 @@ export type Screen =
   | 'coffee_coupon_pay'
   | 'coffee_processing'
   | 'coffee_brewing'
-  | 'coffee_ready';
+  | 'coffee_ready'
+  | 'coffee_thanks';
 
 export type KioskMode = 'promo' | 'coffee';
-export type OrderType = 'puntual' | 'bono_semanal' | 'bono_mensual';
+export type OrderType = 'puntual' | 'bono_semanal' | 'bono_mensual' | 'suscripcion';
 export type BundleType = 'week' | 'month';
 export type PaymentMethod = 'normal' | 'balance' | 'coupon';
 
 // Pedido en curso (detectado en la cafetera Nespresso)
 export const CURRENT_COFFEE_NAME = 'Cappuccino';
-export const COFFEE_PRICE = 3.5;
-export const BONO_WEEK_PRICE = 6;
-export const BONO_MONTH_PRICE = 22.5;
+export const COFFEE_PRICE = 2.5;
+export const BONO_WEEK_PRICE = 10;       // 4 × 2,50 € → recibes 5 cafés
+export const BONO_MONTH_PRICE = 37.5;    // 15 × 2,50 € → recibes 20 cafés
+export const SUSCRIPCION_PRICE = 29;     // Plan Desayuno y Sobremesa
 export const BONO_WEEK_COFFEES = 5;
 export const BONO_MONTH_COFFEES = 20;
 
 // My Espresso (mock)
-export const MY_ESPRESSO_BALANCE = 3.5;
+export const MY_ESPRESSO_BALANCE = 0.5;
 export const COUPON_INITIAL = 3;
 
 interface AppState {
@@ -40,6 +42,7 @@ interface AppState {
   bundleType: BundleType | null;
   paymentMethod: PaymentMethod | null;
   couponRemaining: number;
+  purchaseFlow: boolean; // true cuando el flujo viene de un anuncio (compra, sin preparar café)
 }
 
 interface AppContextType extends AppState {
@@ -52,6 +55,7 @@ interface AppContextType extends AppState {
   setOrderType: (t: OrderType) => void;
   setBundleType: (t: BundleType | null) => void;
   setPaymentMethod: (m: PaymentMethod | null) => void;
+  setPurchaseFlow: (v: boolean) => void;
   getOrderAmount: () => number;
 }
 
@@ -83,6 +87,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     bundleType: null,
     paymentMethod: null,
     couponRemaining: COUPON_INITIAL,
+    purchaseFlow: false,
   });
 
   const t = useCallback((key: string): string => translations[state.language]?.[key] || key, [state.language]);
@@ -98,6 +103,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       orderType: 'puntual',
       bundleType: null,
       paymentMethod: null,
+      purchaseFlow: false,
     }));
   }, []);
 
@@ -107,29 +113,31 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setState(s => ({
       ...s,
       kioskMode: m,
-      // Al entrar en modo café, primero pasamos por la pantalla de "procesando tu selección"
       screen: m === 'promo' ? 'ad' : 'coffee_preparing',
       processing: false,
       orderType: 'puntual',
       bundleType: null,
       paymentMethod: null,
+      purchaseFlow: false,
     }));
   }, []);
 
   const setOrderType = useCallback((orderType: OrderType) => setState(s => ({ ...s, orderType })), []);
   const setBundleType = useCallback((bundleType: BundleType | null) => setState(s => ({ ...s, bundleType })), []);
   const setPaymentMethod = useCallback((paymentMethod: PaymentMethod | null) => setState(s => ({ ...s, paymentMethod })), []);
+  const setPurchaseFlow = useCallback((purchaseFlow: boolean) => setState(s => ({ ...s, purchaseFlow })), []);
 
   const getOrderAmount = useCallback(() => {
     if (state.orderType === 'bono_semanal') return BONO_WEEK_PRICE;
     if (state.orderType === 'bono_mensual') return BONO_MONTH_PRICE;
+    if (state.orderType === 'suscripcion') return SUSCRIPCION_PRICE;
     return COFFEE_PRICE;
   }, [state.orderType]);
 
   return (
     <AppContext.Provider value={{
       ...state, t, setLanguage, navigate, goHome, setProcessing,
-      setKioskMode, setOrderType, setBundleType, setPaymentMethod,
+      setKioskMode, setOrderType, setBundleType, setPaymentMethod, setPurchaseFlow,
       getOrderAmount,
     }}>
       {children}

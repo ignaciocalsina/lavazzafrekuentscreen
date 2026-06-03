@@ -3,11 +3,12 @@ import { useApp } from '@/context/AppContext';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const CoffeeProcessingScreen = () => {
-  const { navigate, paymentMethod } = useApp();
+  const { navigate, paymentMethod, purchaseFlow } = useApp();
   useEffect(() => {
-    const id = setTimeout(() => navigate('coffee_brewing'), 2000);
+    const next = purchaseFlow ? 'coffee_thanks' : 'coffee_brewing';
+    const id = setTimeout(() => navigate(next), 2000);
     return () => clearTimeout(id);
-  }, [navigate]);
+  }, [navigate, purchaseFlow]);
 
   const isPayment = paymentMethod === 'normal' || paymentMethod === 'balance';
   const label = isPayment ? 'Procesando tu pago…' : 'Procesando tu selección…';

@@ -10,6 +10,7 @@ import CoffeeCouponPayScreen from './nespresso/CoffeeCouponPayScreen';
 import CoffeeProcessingScreen from './nespresso/CoffeeProcessingScreen';
 import CoffeeBrewingScreen from './nespresso/CoffeeBrewingScreen';
 import CoffeeReadyScreen from './nespresso/CoffeeReadyScreen';
+import CoffeeThanksScreen from './nespresso/CoffeeThanksScreen';
 
 const ScreenRouter = () => {
   const { screen } = useApp();
@@ -25,6 +26,7 @@ const ScreenRouter = () => {
     case 'coffee_processing': return <CoffeeProcessingScreen />;
     case 'coffee_brewing': return <CoffeeBrewingScreen />;
     case 'coffee_ready': return <CoffeeReadyScreen />;
+    case 'coffee_thanks': return <CoffeeThanksScreen />;
     default: return <NespressoAdScreen />;
   }
 };

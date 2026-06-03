@@ -5,13 +5,15 @@ import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
 
 const CoffeePaymentMethodScreen = () => {
-  const { navigate, setPaymentMethod, orderType, getOrderAmount } = useApp();
+  const { navigate, setPaymentMethod, orderType, getOrderAmount, purchaseFlow } = useApp();
   const amount = getOrderAmount();
-  const isBundle = orderType === 'bono_semanal' || orderType === 'bono_mensual';
+  const isBundle =
+    orderType === 'bono_semanal' || orderType === 'bono_mensual' || orderType === 'suscripcion';
 
   const captionLine =
     orderType === 'bono_semanal' ? 'Bono semanal · 5 cafés' :
     orderType === 'bono_mensual' ? 'Bono mensual · 20 cafés' :
+    orderType === 'suscripcion'  ? 'Plan Desayuno y Sobremesa' :
     'Cappuccino';
 
   const pick = (m: PaymentMethod) => () => {
@@ -52,7 +54,7 @@ const CoffeePaymentMethodScreen = () => {
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
       <FlowBackground />
-      <button onClick={() => navigate('coffee_order')} className="absolute top-2 left-2 z-20 w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/80 active:scale-95">
+      <button onClick={() => navigate(purchaseFlow ? 'ad' : 'coffee_order')} className="absolute top-2 left-2 z-20 w-7 h-7 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white/80 active:scale-95">
         <ArrowLeft className="w-3.5 h-3.5" />
       </button>
 
