@@ -11,10 +11,10 @@ const CoffeePaymentMethodScreen = () => {
     orderType === 'bono_semanal' || orderType === 'bono_mensual' || orderType === 'suscripcion';
 
   const captionLine =
-    orderType === 'bono_semanal' ? 'Bono semanal · 5 cafés' :
-    orderType === 'bono_mensual' ? 'Bono mensual · 20 cafés' :
-    orderType === 'suscripcion'  ? 'Plan Desayuno y Sobremesa' :
-    'Cappuccino';
+    orderType === 'bono_semanal' ? `Bono semanal · 5 cafés · ${fmt(amount)}` :
+    orderType === 'bono_mensual' ? `Bono mensual · 20 cafés · ${fmt(amount)}` :
+    orderType === 'suscripcion'  ? `Plan Desayuno y Sobremesa · ${fmt(amount)} / mes` :
+    `Cappuccino · ${fmt(amount)}`;
 
   const pick = (m: PaymentMethod) => () => {
     setPaymentMethod(m);
