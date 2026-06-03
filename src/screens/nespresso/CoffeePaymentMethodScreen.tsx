@@ -5,13 +5,15 @@ import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
 
 const CoffeePaymentMethodScreen = () => {
-  const { navigate, setPaymentMethod, orderType, getOrderAmount } = useApp();
+  const { navigate, setPaymentMethod, orderType, getOrderAmount, purchaseFlow } = useApp();
   const amount = getOrderAmount();
-  const isBundle = orderType === 'bono_semanal' || orderType === 'bono_mensual';
+  const isBundle =
+    orderType === 'bono_semanal' || orderType === 'bono_mensual' || orderType === 'suscripcion';
 
   const captionLine =
     orderType === 'bono_semanal' ? 'Bono semanal · 5 cafés' :
     orderType === 'bono_mensual' ? 'Bono mensual · 20 cafés' :
+    orderType === 'suscripcion'  ? 'Plan Desayuno y Sobremesa' :
     'Cappuccino';
 
   const pick = (m: PaymentMethod) => () => {
