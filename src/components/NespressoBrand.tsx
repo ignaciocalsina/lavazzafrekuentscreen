@@ -1,15 +1,30 @@
-/** Shared Nespresso brand bits */
+/** Shared Lavazza brand bits */
 import React from 'react';
-import flowBg from '@/assets/nespresso-ad-1.jpg';
+import flowBg from '@/assets/lavazza-ad-1.jpg';
+import lavazzaLogo from '@/assets/lavazza-logo.png.asset.json';
+import contactlessIcon from '@/assets/contactless-icon.png';
 
-export const NespressoLogo: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <span className={`font-serif-nes font-medium tracking-[0.32em] text-white ${className}`}>
-    NESPRESSO<span className="text-nes-gold-text">.</span>
-  </span>
-);
+/** Logo Lavazza (imagen oficial). Mantiene el nombre exportado `NespressoLogo`
+ *  para no romper imports en el resto del proyecto. */
+export const LavazzaLogo: React.FC<{ className?: string }> = ({ className = '' }) => {
+  // Convertimos el sizing por className en altura del logo.
+  // Si la clase trae text-[NNpx], lo usamos como altura; si no, h-4 por defecto.
+  const m = className.match(/text-\[(\d+(?:\.\d+)?)px\]/);
+  const h = m ? `${Math.round(Number(m[1]) * 1.6)}px` : '22px';
+  return (
+    <img
+      src={lavazzaLogo.url}
+      alt="Lavazza"
+      className={`inline-block align-middle ${className}`}
+      style={{ height: h, width: 'auto' }}
+    />
+  );
+};
 
-/** Fondo compartido para todo el flujo de pago de café:
- * misma imagen (ad-1) con blur y opacidad ~50% (15% más visible que antes). */
+// Alias retro-compatible
+export const NespressoLogo = LavazzaLogo;
+
+/** Fondo compartido para todo el flujo de pago de café */
 export const FlowBackground: React.FC = () => (
   <>
     <img
@@ -21,21 +36,19 @@ export const FlowBackground: React.FC = () => (
   </>
 );
 
-/** Header común para pantallas del flujo de pago.
- * Texto +40% respecto a la versión previa. */
+/** Header común para pantallas del flujo de pago. */
 export const KioskHeader: React.FC<{
   caption: React.ReactNode;
   tagline?: string;
 }> = ({ caption, tagline = 'Elige cómo quieres pagarlo' }) => (
   <div className="text-center pt-2.5 pb-1.5">
-    <NespressoLogo className="!text-[17px] !tracking-[0.34em]" />
+    <LavazzaLogo className="text-[17px]" />
     <p className="mt-1 text-nes-gold-text font-serif-nes text-[18px] leading-tight">{caption}</p>
     <p className="text-white text-[15px] mt-0.5">{tagline}</p>
   </div>
 );
 
-/** Icono contactless oficial (imagen proporcionada por el cliente). */
-import contactlessIcon from '@/assets/contactless-icon.png';
+/** Icono contactless (recoloreado a azul Lavazza). */
 export const ContactlessIcon: React.FC<{ className?: string }> = ({ className = 'w-24 h-24' }) => (
   <img src={contactlessIcon} alt="Contactless" className={`${className} object-contain`} />
 );
