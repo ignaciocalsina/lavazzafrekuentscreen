@@ -9,7 +9,7 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Tabs */}
       <div className="inline-flex rounded-full bg-[#2a2a2a] p-1 shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
         {[
-          { id: 'promo' as const, label: 'Anuncios Nespresso' },
+          { id: 'promo' as const, label: 'Anuncios Lavazza' },
           { id: 'coffee' as const, label: 'Pago de café' },
         ].map(tab => {
           const active = kioskMode === tab.id;

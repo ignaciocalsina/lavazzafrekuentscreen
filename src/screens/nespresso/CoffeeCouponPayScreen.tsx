@@ -6,7 +6,7 @@ const CoffeeCouponPayScreen = () => {
   const { navigate, orderType } = useApp();
   const productLabel =
     orderType === 'bono_semanal' ? 'Bono semanal' :
-    orderType === 'bono_mensual' ? 'Bono mensual' : 'Café Nespresso';
+    orderType === 'bono_mensual' ? 'Bono mensual' : 'Café Lavazza';
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">

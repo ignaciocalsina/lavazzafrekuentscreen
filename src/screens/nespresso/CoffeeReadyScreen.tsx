@@ -5,7 +5,7 @@ import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 const CoffeeReadyScreen = () => {
   const { goHome, orderType, paymentMethod, couponRemaining } = useApp();
 
-  let subtitle = 'Gracias por disfrutar de Nespresso.';
+  let subtitle = 'Gracias por disfrutar de Lavazza.';
   let badge: string | null = null;
 
   if (orderType === 'bono_semanal') {

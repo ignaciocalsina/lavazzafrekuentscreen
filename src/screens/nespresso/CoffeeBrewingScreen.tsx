@@ -32,7 +32,7 @@ const CoffeeBrewingScreen = () => {
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-24 h-1.5 rounded-full bg-nes-cream/60" />
         </div>
         <h1 className="font-serif-nes text-2xl text-white">Preparando tu pedido…</h1>
-        <p className="text-[11px] text-white/75 italic">Tu café Nespresso estará listo en unos segundos.</p>
+        <p className="text-[11px] text-white/75 italic">Tu café Lavazza estará listo en unos segundos.</p>
       </div>
     </div>
   );
