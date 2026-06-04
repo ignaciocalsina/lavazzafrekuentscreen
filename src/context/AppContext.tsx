@@ -20,7 +20,7 @@ export type OrderType = 'puntual' | 'bono_semanal' | 'bono_mensual' | 'suscripci
 export type BundleType = 'week' | 'month';
 export type PaymentMethod = 'normal' | 'balance' | 'coupon';
 
-// Pedido en curso (detectado en la cafetera Nespresso)
+// Pedido en curso (detectado en la cafetera Lavazza)
 export const CURRENT_COFFEE_NAME = 'Cappuccino';
 export const COFFEE_PRICE = 2.5;
 export const BONO_WEEK_PRICE = 10;       // 4 × 2,50 € → recibes 5 cafés

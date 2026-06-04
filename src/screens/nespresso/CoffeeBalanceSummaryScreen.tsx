@@ -8,7 +8,7 @@ const productLabel = (orderType: string) => {
   if (orderType === 'bono_semanal') return 'Bono semanal · 5 cafés';
   if (orderType === 'bono_mensual') return 'Bono mensual · 20 cafés';
   if (orderType === 'suscripcion') return 'Plan Desayuno y Sobremesa';
-  return 'Café Nespresso';
+  return 'Café Lavazza';
 };
 
 const CoffeeBalanceSummaryScreen = () => {

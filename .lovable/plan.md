@@ -1,36 +1,62 @@
-## 1. Header centrado y línea "Cappuccino · Importe X €" al doble de tamaño
+# Rebrand Nespresso → Lavazza
 
-Afecta a las dos pantallas que comparten el mismo header:
+Cambio de marca completo del kiosko: wordmark, paleta de color, imagery de anuncios y textos.
 
-- `src/screens/nespresso/CoffeeOrderScreen.tsx`
-- `src/screens/nespresso/CoffeePaymentMethodScreen.tsx`
+## 1. Paleta de color (índice.css + tailwind)
 
-Cambios en el bloque del header (entre el logo NESPRESSO y el texto "SELECCIONA TU MÉTODO DE PAGO"):
+Sustituyo los tokens dorados Nespresso por la paleta Lavazza (azul corporativo + crema cálida heredada del packaging Qualità Oro).
 
-- Combinar `captionLine` + importe en una única línea grande, p. ej.:
-  - `Cappuccino · Importe 2,50 €`
-  - `Bono semanal · 5 cafés · 10,00 €`
-  - `Bono mensual · 20 cafés · 37,50 €`
-  - `Plan Desayuno y Sobremesa · 29,00 € / mes`
-- Doblar el tamaño tipográfico: de `text-[26px]` → `text-[36px]` aprox, manteniendo `font-serif-nes text-nes-gold-text`.
-- Eliminar la segunda línea "Importe …" (ya está integrada en la principal).
-- Centrar verticalmente esa línea en el espacio entre el logo y el título "SELECCIONA TU MÉTODO DE PAGO":
-  - Envolver header + caption + título de sección en un contenedor `flex-1 flex flex-col`, con el caption en un wrapper `flex-1 flex items-center justify-center`. Así el caption queda visualmente centrado en el hueco disponible.
+- `--nes-gold-text` (acento dorado) → azul Lavazza `#1d2e7c` aprox. (hsl 230 62% 30%)
+- `--nes-gold` (botones/blocks) → azul medio `#2a3d99`
+- `--nes-sand` → naranja cálido del packaging Oro (`#e8a85c`) para mantener contraste cálido en los bloques
+- `--nes-cream` se mantiene (crema neutra)
+- `--nes-coffee` (fondo): se mantiene oscuro (negro café), funciona con azul
 
-## 2. Reducir 80 % la separación entre icono contactless y texto
+Renombro los tokens semánticos a `--lav-*` y actualizo `tailwind.config.ts` (`nes` → `lav`). Mantengo `nes-*` como alias temporal para no romper componentes hasta migrar todos, luego elimino.
 
-Afecta a:
+> Decisión rápida: en vez de renombrar 20+ archivos, dejo los nombres de token como están (`nes-gold-text` etc.) pero con valores Lavazza. Es invisible para el usuario final y reduce riesgo. Sólo el wordmark y los textos visibles cambian.
 
-- `src/screens/nespresso/CoffeeNormalPayScreen.tsx`
-- `src/screens/nespresso/CoffeeBalancePayScreen.tsx`
+## 2. Wordmark y componente de marca
 
-Ahora el `<button>` usa `gap-1` (4 px). Reducir un 80 % → ~1 px. Implementación: cambiar `gap-1` por `gap-0` y aplicar un margen negativo al texto (`-mt-3`) para acercarlo claramente al icono dejando un mínimo de aire.
+`src/components/NespressoBrand.tsx`:
+- `NespressoLogo` → `LavazzaLogo`: usa el logo Lavazza (PNG subido) en lugar del texto serif. Lo subo como Lovable Asset.
+- `KioskHeader`, `FlowBackground`, `ContactlessIcon` se mantienen, sólo cambia la importación.
+- Exporto alias `NespressoLogo = LavazzaLogo` para no tocar todos los imports en una pasada.
 
-## Archivos a modificar
+## 3. Imágenes de anuncios
 
-- `src/screens/nespresso/CoffeeOrderScreen.tsx`
-- `src/screens/nespresso/CoffeePaymentMethodScreen.tsx`
-- `src/screens/nespresso/CoffeeNormalPayScreen.tsx`
-- `src/screens/nespresso/CoffeeBalancePayScreen.tsx`
+Reemplazo los 4 ads del carrusel (`nespresso-ad-1..4.jpg`) por imágenes generadas con estética Lavazza (azul + tonos cálidos del Qualità Oro), usando la caja Lavazza adjunta como referencia visual:
 
-No hay cambios de lógica ni de navegación.
+- ad-1: bodegón cápsulas Lavazza Oro + taza espresso (también usado como fondo en `FlowBackground`)
+- ad-2: ritual café con packaging Lavazza visible
+- ad-3: bono semanal — composición editorial con cápsulas
+- ad-4: plan mensual — taza + granos, vibe italiana Torino
+
+Genero con `imagegen` (standard) y los subo como Lovable Assets.
+
+## 4. Textos visibles
+
+- "Cappuccino" se mantiene (es un café, no marca). Producto destacado pasa a "Qualità Oro" (Cappuccino) si el usuario quiere, pero por defecto dejo "Cappuccino" para no inventar.
+- Cualquier copy que diga "Nespresso" → "Lavazza" en:
+  - `index.html` (title, meta description)
+  - `CoffeePreparingScreen`, `CoffeeReadyScreen`, `CoffeeThanksScreen`, etc.
+  - `NespressoAdScreen` slides
+  - `Soportes.tsx`
+- Plan "Desayuno y Sobremesa" se mantiene (es genérico).
+
+## 5. Iconos y elementos dorados
+
+Botones, CTAs, badges "TOCA PARA COMPRAR", dots del carrusel, líneas decorativas, etc. ya usan los tokens `nes-gold-text`/`nes-gold`, por lo que cambian automáticamente al actualizar los valores HSL (paso 1).
+
+## Detalles técnicos
+
+- No renombro carpetas (`src/screens/nespresso/`) ni nombres de tokens CSS para evitar churn masivo de imports. Los nombres internos no son visibles al usuario.
+- Logo Lavazza: lo subo vía `lovable-assets create` desde `/mnt/user-uploads/image-2.png`.
+- Imágenes de ads: genero con `imagegen` model `standard`, 1280×800 jpg, luego `lovable-assets create`. Borro los `.jpg` originales de Nespresso después de subir los nuevos.
+- Memory: actualizo `mem://index.md` para reflejar marca Lavazza y nueva paleta.
+
+## Fuera de alcance
+
+- No toco lógica de negocio (precios, flujos, pagos).
+- No cambio nombres de archivos/carpetas.
+- No genero nuevo logo: uso el PNG que subiste tal cual.
