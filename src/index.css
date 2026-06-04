@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Nespresso palette */
+    /* Lavazza palette */
     --background: 20 30% 5%;          /* #0a0706 */
     --foreground: 38 30% 92%;         /* cream text */
 
@@ -14,16 +14,16 @@
     --popover: 20 25% 8%;
     --popover-foreground: 38 30% 92%;
 
-    --primary: 35 35% 50%;            /* warm gold */
-    --primary-foreground: 20 30% 5%;
+    --primary: 230 65% 33%;           /* Lavazza blue */
+    --primary-foreground: 38 50% 92%;
 
     --secondary: 38 35% 75%;          /* cream */
     --secondary-foreground: 20 30% 5%;
 
-    --muted: 25 15% 18%;
-    --muted-foreground: 35 15% 65%;
+    --muted: 225 15% 18%;
+    --muted-foreground: 225 10% 65%;
 
-    --accent: 35 45% 55%;
+    --accent: 225 55% 64%;
     --accent-foreground: 20 30% 5%;
 
     --destructive: 0 72% 51%;
@@ -32,19 +32,19 @@
     --success: 145 50% 45%;
     --success-foreground: 0 0% 100%;
 
-    --border: 25 15% 22%;
-    --input: 25 15% 22%;
-    --ring: 35 35% 50%;
+    --border: 225 15% 22%;
+    --input: 225 15% 22%;
+    --ring: 230 65% 33%;
 
     --radius: 0.75rem;
 
-    /* Nespresso brand tones */
+    /* Lavazza brand tones (keep `nes-*` token names internally to avoid churn) */
     --nes-cream:   38 50% 90%;        /* #f0e9dd */
-    --nes-sand:    36 38% 75%;        /* #d9c7a7 */
-    --nes-gold:    32 30% 51%;        /* #a8895c */
+    --nes-sand:    30 76% 64%;        /* #e8a85c – Qualità Oro orange */
+    --nes-gold:    230 65% 33%;       /* #1d2f8c – Lavazza deep blue */
     --nes-coffee:  20 30% 5%;
     --nes-onyx:    0 0% 6%;
-    --nes-gold-text: 36 55% 55%;
+    --nes-gold-text: 225 55% 64%;     /* #6f86d6 – Lavazza light blue accent */
   }
 }
 
