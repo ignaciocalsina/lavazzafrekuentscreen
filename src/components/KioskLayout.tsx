@@ -37,7 +37,7 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         />
         <div className="absolute bottom-[55px] left-[22px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-10" />
 
-        <div className="relative w-[616px] h-[370px] rounded-[20px] overflow-hidden bg-nes-coffee flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
+        <div className="relative w-[370px] h-[616px] rounded-[20px] overflow-hidden bg-nes-coffee flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
           <main className="flex-1 overflow-hidden flex flex-col scrollbar-none">
             {children}
           </main>

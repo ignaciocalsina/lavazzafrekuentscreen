@@ -20,7 +20,7 @@ const CoffeeCouponPayScreen = () => {
       </div>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center gap-3 px-8 pb-3">
-        <div className="w-[70%] rounded-xl bg-white/8 border border-white/15 p-3 text-white text-[13px] backdrop-blur-sm text-center">
+        <div className="w-[92%] rounded-xl bg-white/8 border border-white/15 p-3 text-white text-[13px] backdrop-blur-sm text-center">
           <Ticket className="w-8 h-8 mx-auto text-nes-gold-text" strokeWidth={1.5} />
           <p className="mt-1 opacity-80 text-[11px] tracking-[0.2em] font-semibold">CUPÓN ACTIVO</p>
           <p className="font-serif-nes text-[26px] text-nes-gold-text leading-none">{COUPON_INITIAL}</p>

@@ -18,16 +18,16 @@ const CoffeeBalancePayScreen = () => {
 
       <div className="relative z-10 text-center pt-3">
         <NespressoLogo className="!text-[15px] !tracking-[0.32em]" />
-        <p className="mt-1.5 text-white/75 text-[11px] tracking-[0.25em] font-semibold">IMPORTE PENDIENTE</p>
-        <p className="font-serif-nes text-nes-gold-text text-[39px] leading-none mt-0.5">{fmt(pending)}</p>
+        <p className="mt-2 text-white/75 text-[11px] tracking-[0.25em] font-semibold">IMPORTE PENDIENTE</p>
+        <p className="font-serif-nes text-nes-gold-text text-[44px] leading-none mt-1">{fmt(pending)}</p>
       </div>
 
       <button
         onClick={() => navigate('coffee_processing')}
         className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-0 text-nes-gold-text nfc-pulse active:scale-95 transition-transform"
       >
-        <ContactlessIcon className="w-56 h-56" />
-        <span className="text-white text-[28px] font-serif-nes tracking-wide leading-none -mt-10">Acerca tu tarjeta para pagar</span>
+        <ContactlessIcon className="w-52 h-52" />
+        <span className="text-white text-[22px] font-serif-nes tracking-wide leading-none -mt-8 text-center px-6">Acerca tu tarjeta para pagar</span>
       </button>
     </div>
   );

@@ -27,8 +27,8 @@ const SLIDES: Slide[] = [
   {
     img: ad4,
     eyebrow: 'PLAN DESAYUNO Y SOBREMESA',
-    title: '29 € al mes, 1 € al día.',
-    em: 'Ahorra un 6 % al año.',
+    title: '29 € al mes,',
+    em: '1 € al día.',
     action: { orderType: 'suscripcion' },
   },
 ];
@@ -61,9 +61,9 @@ const NespressoAdScreen = () => {
         alt=""
         className="absolute inset-0 w-full h-full object-cover animate-ken-burns opacity-95"
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/85" />
 
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
         <NespressoLogo className="!text-[15px] !tracking-[0.34em]" />
       </div>
 
@@ -71,20 +71,20 @@ const NespressoAdScreen = () => {
         key={`text-${i}`}
         onClick={handleClick}
         disabled={!clickable}
-        className="absolute inset-0 z-10 flex flex-col items-start justify-center pl-8 pr-[40%] animate-fade-in text-left disabled:cursor-default"
+        className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-20 px-6 animate-fade-in text-center disabled:cursor-default"
       >
-        <p className="text-[12px] tracking-[0.32em] text-nes-gold-text font-semibold mb-2">{s.eyebrow}</p>
-        <h2 className="font-serif-nes text-[37px] leading-[1.05] text-white">{s.title}</h2>
-        <h2 className="font-serif-nes italic text-[37px] leading-[1.05] text-nes-gold-text">{s.em}</h2>
-        <div className="mt-3 h-px w-20 bg-nes-gold-text/70" />
+        <p className="text-[12px] tracking-[0.32em] text-nes-gold-text font-semibold mb-3">{s.eyebrow}</p>
+        <h2 className="font-serif-nes text-[34px] leading-[1.05] text-white">{s.title}</h2>
+        <h2 className="font-serif-nes italic text-[34px] leading-[1.05] text-nes-gold-text">{s.em}</h2>
+        <div className="mt-4 h-px w-20 bg-nes-gold-text/70" />
         {clickable && (
-          <span className="mt-3 inline-flex items-center gap-1 bg-nes-gold-text text-nes-onyx rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.18em] animate-pulse">
+          <span className="mt-4 inline-flex items-center gap-1 bg-nes-gold-text text-nes-onyx rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.18em] animate-pulse">
             TOCA PARA COMPRAR
           </span>
         )}
       </button>
 
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex gap-2">
         {SLIDES.map((_, idx) => (
           <div key={idx} className={`h-1.5 rounded-full transition-all ${idx === i ? 'w-8 bg-nes-gold-text' : 'w-2 bg-white/40'}`} />
         ))}
