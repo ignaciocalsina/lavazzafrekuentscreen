@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import ad1 from '@/assets/nespresso-ad-1.jpg';
-import ad2 from '@/assets/nespresso-ad-2.jpg';
-import ad3 from '@/assets/nespresso-ad-3.jpg';
-import ad4 from '@/assets/nespresso-ad-4.jpg';
+import ad1 from '@/assets/lavazza-ad-1.jpg';
+import ad2 from '@/assets/lavazza-ad-2.jpg';
+import ad3 from '@/assets/lavazza-ad-3.jpg';
+import ad4 from '@/assets/lavazza-ad-4.jpg';
 import { NespressoLogo } from '@/components/NespressoBrand';
 import { useApp, OrderType } from '@/context/AppContext';
 
@@ -15,8 +15,8 @@ type Slide = {
 };
 
 const SLIDES: Slide[] = [
-  { img: ad1, eyebrow: 'EXPERIENCIA', title: 'El mejor café del mundo,', em: 'ahora más fácil que nunca.' },
-  { img: ad2, eyebrow: 'TU RITUAL', title: 'Tu café Nespresso,', em: 'siempre a mano.' },
+  { img: ad1, eyebrow: 'EXPERIENCIA', title: 'El auténtico café italiano,', em: 'ahora más fácil que nunca.' },
+  { img: ad2, eyebrow: 'TU RITUAL', title: 'Tu café Lavazza,', em: 'siempre a mano.' },
   {
     img: ad3,
     eyebrow: 'BONO SEMANAL',
