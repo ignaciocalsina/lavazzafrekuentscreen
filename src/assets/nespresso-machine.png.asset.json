@@ -1,11 +1,11 @@
 {
-  "version": 1,
   "asset_id": "4e2448d3-9efb-4527-967e-753b067b8fdd",
-  "project_id": "05ddfdb6-0b11-45b2-8fa7-93e49f603926",
-  "url": "/__l5e/assets-v1/4e2448d3-9efb-4527-967e-753b067b8fdd/nespresso-machine.png",
-  "r2_key": "a/v1/05ddfdb6-0b11-45b2-8fa7-93e49f603926/4e2448d3-9efb-4527-967e-753b067b8fdd/nespresso-machine.png",
-  "original_filename": "nespresso-machine.png",
-  "size": 1305090,
   "content_type": "image/png",
-  "created_at": "2026-06-02T14:44:07Z"
+  "created_at": "2026-06-02T14:44:07Z",
+  "original_filename": "nespresso-machine.png",
+  "project_id": "42cb5a1c-61a2-4247-88a2-cb64231915b0",
+  "r2_key": "a/v1/42cb5a1c-61a2-4247-88a2-cb64231915b0/4e2448d3-9efb-4527-967e-753b067b8fdd/nespresso-machine.png",
+  "size": 1305090,
+  "url": "/__l5e/assets-v1/4e2448d3-9efb-4527-967e-753b067b8fdd/nespresso-machine.png",
+  "version": 1
 }
