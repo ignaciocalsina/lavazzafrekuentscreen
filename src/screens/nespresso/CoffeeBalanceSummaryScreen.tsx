@@ -30,7 +30,7 @@ const CoffeeBalanceSummaryScreen = () => {
       </div>
 
       <div className="relative z-10 flex-1 flex items-center justify-center px-6">
-        <div className="w-[80%] rounded-xl bg-white/8 border border-white/15 p-3 text-white text-[13px] backdrop-blur-sm">
+        <div className="w-[92%] rounded-xl bg-white/8 border border-white/15 p-3 text-white text-[13px] backdrop-blur-sm">
           <div className="flex justify-between py-1">
             <span className="opacity-80">Producto</span>
             <span>{productLabel(orderType)}</span>
