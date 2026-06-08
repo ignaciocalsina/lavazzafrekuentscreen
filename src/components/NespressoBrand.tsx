@@ -31,7 +31,7 @@ export const FlowBackground: React.FC = () => (
     <img
       src={flowBg}
       alt=""
-      className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[6px] scale-110"
+      className="absolute inset-0 w-full h-full object-cover opacity-55 blur-[5px] scale-110"
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/80" />
   </>
