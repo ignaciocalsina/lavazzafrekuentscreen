@@ -53,3 +53,20 @@ export const KioskHeader: React.FC<{
 export const ContactlessIcon: React.FC<{ className?: string }> = ({ className = 'w-24 h-24' }) => (
   <img src={contactlessIcon} alt="Contactless" className={`${className} object-contain`} />
 );
+
+/** Footer "Pago 100% seguro" con icono de candado. */
+export const SecureFooter: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <div className={`px-6 ${className}`}>
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-px bg-white/15" />
+      <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3 text-white/60">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <div className="flex-1 h-px bg-white/15" />
+    </div>
+    <p className="text-center text-white/55 text-[10px] tracking-[0.15em] mt-1.5">Pago 100% seguro</p>
+  </div>
+);
