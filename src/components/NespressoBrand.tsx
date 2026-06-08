@@ -2,7 +2,8 @@
 import React from 'react';
 import flowBg from '@/assets/lavazza-ad-1.jpg';
 import lavazzaLogo from '@/assets/lavazza-logo.png.asset.json';
-import contactlessIcon from '@/assets/contactless-icon.png';
+import contactlessAsset from '@/assets/contactless-icon.png.asset.json';
+const contactlessIcon = contactlessAsset.url;
 
 /** Logo Lavazza (imagen oficial). Mantiene el nombre exportado `NespressoLogo`
  *  para no romper imports en el resto del proyecto. */
