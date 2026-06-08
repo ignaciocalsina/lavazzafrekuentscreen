@@ -1,30 +1,57 @@
-# Rotar kiosko a formato vertical
+## Rediseño de tarjetas: pago de café y método de pago
 
-Pasamos toda la UX de horizontal (616×370) a vertical (370×616). El marco físico (bezel grisáceo con borde y botón) sigue en el mismo sitio, solo se gira 90° a la derecha; el contenido se rediseña para aprovechar el alto extra y la anchura reducida.
+Cambiar la estructura visual de las tarjetas en `CoffeeOrderScreen` y `CoffeePaymentMethodScreen` para que sean verticales, todas en tonos de azul Lavazza, y con badge esquina superior derecha cuando aplique.
 
-## 1. Marco del kiosko (`KioskLayout.tsx`)
+### 1. Paleta — 3 tonalidades de azul Lavazza
 
-- Cambiar la pantalla interior de `w-[616px] h-[370px]` a `w-[370px] h-[616px]`.
-- Mantener el bezel/cápsula con el mismo padding y el botón inferior izquierdo (ahora queda en la esquina correspondiente del nuevo formato vertical).
-- Las pestañas "Anuncios Lavazza / Pago de café" se mantienen encima del bezel sin cambios.
+Añadir tres tokens en `src/index.css` (y exponerlos en `tailwind.config.ts` bajo `nes.blue-*`):
 
-## 2. Memoria del proyecto
+- `--nes-blue-dark`   → azul Lavazza profundo (#1d2f8c, el actual `--nes-gold`)
+- `--nes-blue-mid`    → azul intermedio (~#3a52b8)
+- `--nes-blue-light`  → azul claro (~#6f86d6, el actual `--nes-gold-text`)
 
-- Actualizar `mem://index.md` para que la regla del kiosk pase de "616×370" a "370×616 (vertical)".
+Texto: cream (`--nes-cream`) sobre los tres fondos.
 
-## 3. Pantallas que se rediseñan (todas dentro de `src/screens/nespresso/`)
+### 2. Estructura vertical de tarjeta
 
-Mismo contenido y misma lógica, solo se reorganiza la composición para vertical:
+Cada card en `grid-cols-1` con layout:
 
-- **NespressoAdScreen** (carrusel): texto del slide pasa de columna izquierda 60% a bloque superior/centro a pleno ancho; dots y logo se mantienen arriba/abajo.
-- **CoffeeOrderScreen** (3 tarjetas: pagar café / bono semanal / bono mensual): grid cambia de `grid-cols-3` a `grid-cols-1` con 3 filas, tarjetas más anchas y bajas (layout horizontal interno: icono a la izquierda, título+descripción al centro, CTA a la derecha). Caption del precio se reduce de `text-[54px]` a algo tipo `text-[34px]` para no comerse el alto.
-- **CoffeePaymentMethodScreen** (2–3 métodos): igual que arriba — `grid-cols-1` apilado, tarjetas tipo fila.
-- **CoffeeNormalPayScreen / CoffeeBalancePayScreen**: el icono de contactless y "Acerca tu tarjeta para pagar" ya están centrados absolutos en la pantalla, así que se mantienen; solo se ajusta el tamaño del icono (`w-56 h-56` → algo como `w-48 h-48`) y el tipo del importe para que quepa en 370px de ancho.
-- **CoffeeBalanceSummaryScreen / CoffeeCouponPayScreen**: la tarjeta central pasa de `w-[70/80%]` a casi pleno ancho con más altura disponible para el resumen.
-- **CoffeeProcessingScreen / CoffeePreparingScreen / CoffeeBrewingScreen / CoffeeReadyScreen / CoffeeThanksScreen**: ya son verticales por naturaleza (logo arriba + contenido centrado). Solo se revisa que el contenido respire bien en 370×616 (sin cambios estructurales más allá de pequeños ajustes de tamaño/spacing).
+```
+┌────────────────────────────┐
+│              [badge top-R] │   ← solo bonos (5 / 20 CAFÉS)
+│        ⬤ icono (top, center) │
+│                            │
+│        TÍTULO              │
+│        subtítulo           │
+│                            │
+│      [ BOTÓN PAGAR ]       │
+└────────────────────────────┘
+```
 
-## Fuera de alcance
+- Icono: círculo cream con icono azul, centrado arriba.
+- Título: `font-serif-nes`, tracking ancho, centrado.
+- Subtítulo: pequeño, opacidad ~85%, centrado.
+- Botón: pill cream con texto azul oscuro, centrado, ancho auto.
+- Badge bonos: posición `absolute top-2 right-2`, círculo onyx con número + label "CAFÉS".
 
-- No se toca lógica de negocio, contexto, precios, ni el flujo de navegación.
-- No se renombran carpetas ni tokens (`nes-*` se mantienen como alias Lavazza, igual que hasta ahora).
-- No se cambia la página `/` (máquina vending + CTA "Ver demo"), solo el contenido del bezel en `/demo`.
+### 3. Pantallas afectadas
+
+**`CoffeeOrderScreen.tsx`** (3 tarjetas):
+1. PAGAR ESTE CAFÉ — fondo `nes-blue-light`, sin badge, CTA "PAGAR AHORA".
+2. BONO SEMANAL — fondo `nes-blue-mid`, badge "5 CAFÉS", CTA "TOCA PARA COMPRAR".
+3. BONO MENSUAL — fondo `nes-blue-dark`, badge "20 CAFÉS", CTA "TOCA PARA COMPRAR".
+
+**`CoffeePaymentMethodScreen.tsx`** (2 o 3 tarjetas según flujo):
+- Misma estructura vertical, misma gradación azul (light → mid → dark según orden).
+- Para "Pagar este café": 3 tarjetas (Normal, Cupones, Saldo).
+- Para Bonos: 2 tarjetas (Normal, Saldo) — degradado de 2 (light → dark).
+- Iconos centrados arriba, sin badge.
+
+### 4. Ajustes de tamaño
+
+Como ahora son verticales y caben 3 en 616px de alto, las tarjetas se estiran con `flex-1`. Padding interno `p-3`, gap entre elementos `gap-2`. Icono `w-11 h-11`, título `text-[14px]`, subtítulo `text-[11px]`, botón `text-[10px] px-3 py-1.5`.
+
+### Fuera de alcance
+
+- No se toca lógica, navegación, precios ni el resto de pantallas (contactless, brewing, etc.).
+- Los tokens `nes-gold` / `nes-sand` actuales se mantienen para no romper otras pantallas; los nuevos `nes-blue-*` se añaden en paralelo.

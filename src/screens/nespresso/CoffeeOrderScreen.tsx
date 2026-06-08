@@ -1,5 +1,5 @@
 import { useApp, CURRENT_COFFEE_NAME, COFFEE_PRICE } from '@/context/AppContext';
-import { Coffee, Calendar, ChevronRight } from 'lucide-react';
+import { Coffee, Calendar } from 'lucide-react';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
@@ -22,38 +22,34 @@ const CoffeeOrderScreen = () => {
     title: string;
     desc: React.ReactNode;
     cta: string;
-    ctaBg: string;
   };
 
   const cards: Card[] = [
     {
       onClick: choose('puntual'),
-      bg: 'bg-nes-cream text-nes-onyx',
-      icon: <Coffee className="w-6 h-6 text-nes-onyx" strokeWidth={1.5} />,
+      bg: 'bg-nes-blue-light',
+      icon: <Coffee className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       title: 'PAGAR ESTE CAFÉ',
       desc: <>Paga solo este café de forma puntual.</>,
       cta: 'PAGAR AHORA',
-      ctaBg: 'bg-nes-onyx text-nes-cream',
     },
     {
       onClick: choose('week'),
-      bg: 'bg-nes-sand text-nes-onyx',
-      icon: <Calendar className="w-6 h-6 text-nes-onyx" strokeWidth={1.5} />,
+      bg: 'bg-nes-blue-mid',
+      icon: <Calendar className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       badge: { n: '5', label: 'CAFÉS' },
       title: 'BONO SEMANAL',
       desc: <>Paga <strong>4</strong> cafés y recibe <strong>5</strong>.</>,
       cta: 'TOCA PARA COMPRAR',
-      ctaBg: 'bg-nes-onyx text-nes-cream',
     },
     {
       onClick: choose('month'),
-      bg: 'bg-nes-gold text-nes-cream',
-      icon: <Calendar className="w-6 h-6 text-nes-cream" strokeWidth={1.5} />,
+      bg: 'bg-nes-blue-dark',
+      icon: <Calendar className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       badge: { n: '20', label: 'CAFÉS' },
       title: 'BONO MENSUAL',
       desc: <>Paga <strong>15</strong> cafés y recibe <strong>20</strong>.</>,
       cta: 'TOCA PARA COMPRAR',
-      ctaBg: 'bg-nes-cream text-nes-onyx',
     },
   ];
 
@@ -80,28 +76,29 @@ const CoffeeOrderScreen = () => {
           <button
             key={idx}
             onClick={c.onClick}
-            className={`relative rounded-xl ${c.bg} p-3 flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg flex-1`}
+            className={`relative rounded-xl ${c.bg} text-nes-cream p-3 flex flex-col items-center justify-between active:scale-[0.98] transition-transform shadow-lg flex-1`}
           >
-            <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-inner shrink-0">
+            {c.badge && (
+              <div className="absolute top-2 right-2 w-10 h-10 rounded-full bg-nes-onyx text-nes-cream flex flex-col items-center justify-center">
+                <span className="font-serif-nes text-sm leading-none font-bold">{c.badge.n}</span>
+                <span className="text-[7px] tracking-[0.15em]">{c.badge.label}</span>
+              </div>
+            )}
+
+            <div className="w-11 h-11 rounded-full bg-nes-cream flex items-center justify-center shadow-inner shrink-0">
               {c.icon}
             </div>
-            <div className="flex-1 text-left">
-              <h3 className="font-serif-nes text-[15px] font-semibold tracking-[0.1em] leading-tight">
+
+            <div className="text-center px-2">
+              <h3 className="font-serif-nes text-[15px] font-semibold tracking-[0.12em] leading-tight">
                 {c.title}
               </h3>
-              <p className="text-[11px] leading-snug opacity-85 mt-0.5">{c.desc}</p>
+              <p className="text-[11px] leading-snug opacity-90 mt-0.5">{c.desc}</p>
             </div>
-            <div className="flex flex-col items-end gap-1.5 shrink-0">
-              {c.badge && (
-                <div className="w-10 h-10 rounded-full bg-nes-onyx text-nes-cream flex flex-col items-center justify-center">
-                  <span className="font-serif-nes text-sm leading-none font-bold">{c.badge.n}</span>
-                  <span className="text-[7px] tracking-[0.15em]">{c.badge.label}</span>
-                </div>
-              )}
-              <span className={`inline-flex items-center gap-1 ${c.ctaBg} rounded-full px-2.5 py-1 text-[9px] font-semibold tracking-[0.12em]`}>
-                {c.cta} <ChevronRight className="w-3 h-3" />
-              </span>
-            </div>
+
+            <span className="inline-flex items-center bg-nes-cream text-nes-blue-dark rounded-full px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em]">
+              {c.cta}
+            </span>
           </button>
         ))}
       </div>

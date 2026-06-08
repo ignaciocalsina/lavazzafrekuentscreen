@@ -45,6 +45,11 @@
     --nes-coffee:  20 30% 5%;
     --nes-onyx:    0 0% 6%;
     --nes-gold-text: 225 55% 64%;     /* #6f86d6 – Lavazza light blue accent */
+
+    /* Lavazza blue gradation (cards) */
+    --nes-blue-light: 225 55% 64%;    /* #6f86d6 */
+    --nes-blue-mid:   228 55% 47%;    /* ~#3a52b8 */
+    --nes-blue-dark:  230 65% 33%;    /* #1d2f8c */
   }
 }
 

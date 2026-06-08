@@ -32,6 +32,9 @@ export default {
           coffee: "hsl(var(--nes-coffee))",
           onyx: "hsl(var(--nes-onyx))",
           "gold-text": "hsl(var(--nes-gold-text))",
+          "blue-light": "hsl(var(--nes-blue-light))",
+          "blue-mid": "hsl(var(--nes-blue-mid))",
+          "blue-dark": "hsl(var(--nes-blue-dark))",
         },
       },
       borderRadius: {

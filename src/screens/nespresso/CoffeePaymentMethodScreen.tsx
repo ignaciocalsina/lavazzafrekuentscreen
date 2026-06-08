@@ -1,5 +1,5 @@
 import { useApp, PaymentMethod } from '@/context/AppContext';
-import { CreditCard, Ticket, Wallet, ArrowLeft, ChevronRight } from 'lucide-react';
+import { CreditCard, Ticket, Wallet, ArrowLeft } from 'lucide-react';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
@@ -23,36 +23,36 @@ const CoffeePaymentMethodScreen = () => {
     else navigate('coffee_coupon_pay');
   };
 
-  type Card = { key: PaymentMethod; bg: string; icon: React.ReactNode; title: string; desc: React.ReactNode; cta: string; ctaBg: string };
-  const cards: Card[] = [
+  type Card = { key: PaymentMethod; icon: React.ReactNode; title: string; desc: React.ReactNode; cta: string };
+  const baseCards: Card[] = [
     {
       key: 'normal',
-      bg: 'bg-nes-cream text-nes-onyx',
-      icon: <CreditCard className="w-6 h-6 text-nes-onyx" strokeWidth={1.5} />,
+      icon: <CreditCard className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       title: 'PAGO NORMAL',
       desc: <>Tarjeta, Apple Pay o Google Pay.</>,
       cta: 'CONTINUAR',
-      ctaBg: 'bg-nes-onyx text-nes-cream',
     },
     ...(isBundle ? [] : [{
       key: 'coupon' as PaymentMethod,
-      bg: 'bg-nes-sand text-nes-onyx',
-      icon: <Ticket className="w-6 h-6 text-nes-onyx" strokeWidth={1.5} />,
+      icon: <Ticket className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       title: 'CUPONES',
       desc: <>Canjea un café de tu cupón activo.</>,
       cta: 'CANJEAR',
-      ctaBg: 'bg-nes-onyx text-nes-cream',
     }]),
     {
       key: 'balance',
-      bg: 'bg-nes-gold text-nes-cream',
-      icon: <Wallet className="w-6 h-6 text-nes-cream" strokeWidth={1.5} />,
+      icon: <Wallet className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
       title: 'SALDO',
       desc: <>Usa tu saldo y acumula ventajas.</>,
       cta: 'CONTINUAR',
-      ctaBg: 'bg-nes-cream text-nes-onyx',
     },
   ];
+
+  // Gradación azul light → mid → dark según número de tarjetas
+  const bgFor = (i: number, total: number) => {
+    if (total === 2) return i === 0 ? 'bg-nes-blue-light' : 'bg-nes-blue-dark';
+    return ['bg-nes-blue-light', 'bg-nes-blue-mid', 'bg-nes-blue-dark'][i];
+  };
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
@@ -76,21 +76,21 @@ const CoffeePaymentMethodScreen = () => {
       </p>
 
       <div className="relative z-10 px-3 pb-3 flex flex-col gap-2 flex-1">
-        {cards.map((c) => (
+        {baseCards.map((c, i) => (
           <button
             key={c.key}
             onClick={pick(c.key)}
-            className={`rounded-xl ${c.bg} p-3 flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg flex-1`}
+            className={`rounded-xl ${bgFor(i, baseCards.length)} text-nes-cream p-3 flex flex-col items-center justify-between active:scale-[0.98] transition-transform shadow-lg flex-1`}
           >
-            <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-inner shrink-0">
+            <div className="w-11 h-11 rounded-full bg-nes-cream flex items-center justify-center shadow-inner shrink-0">
               {c.icon}
             </div>
-            <div className="flex-1 text-left">
-              <h3 className="font-serif-nes text-[15px] font-semibold tracking-[0.1em] leading-tight">{c.title}</h3>
-              <p className="text-[11px] mt-0.5 leading-snug opacity-85">{c.desc}</p>
+            <div className="text-center px-2">
+              <h3 className="font-serif-nes text-[15px] font-semibold tracking-[0.12em] leading-tight">{c.title}</h3>
+              <p className="text-[11px] mt-0.5 leading-snug opacity-90">{c.desc}</p>
             </div>
-            <span className={`shrink-0 inline-flex items-center gap-1 ${c.ctaBg} rounded-full px-2.5 py-1 text-[9px] font-semibold tracking-[0.12em]`}>
-              {c.cta} <ChevronRight className="w-3 h-3" />
+            <span className="inline-flex items-center bg-nes-cream text-nes-blue-dark rounded-full px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em]">
+              {c.cta}
             </span>
           </button>
         ))}
