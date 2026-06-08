@@ -1,6 +1,6 @@
 import { useApp, MY_ESPRESSO_BALANCE } from '@/context/AppContext';
 import { ArrowLeft } from 'lucide-react';
-import { FlowBackground, NespressoLogo, ContactlessIcon } from '@/components/NespressoBrand';
+import { FlowBackground, NespressoLogo, ContactlessIcon, SecureFooter } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
 
@@ -29,6 +29,8 @@ const CoffeeBalancePayScreen = () => {
         <ContactlessIcon className="w-52 h-52" />
         <span className="text-white text-[22px] font-serif-nes tracking-wide leading-none -mt-8 text-center px-6">Acerca tu tarjeta para pagar</span>
       </button>
+
+      <SecureFooter className="absolute bottom-3 left-0 right-0 z-20" />
     </div>
   );
 };
