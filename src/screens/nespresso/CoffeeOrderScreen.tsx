@@ -77,15 +77,15 @@ const CoffeeOrderScreen = () => {
           <button
             key={idx}
             onClick={c.onClick}
-            className="group relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 h-[84px] flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
+            className="group relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 h-[96px] flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
           >
             <div className={`w-11 h-11 rounded-full ${c.iconBg} ${c.iconColor} flex items-center justify-center shrink-0 shadow-inner`}>
               {c.icon}
             </div>
 
             <div className="flex-1 text-left min-w-0">
-              <h3 className="font-serif-nes text-nes-cream text-[17px] leading-tight">{c.title}</h3>
-              <p className="text-white/65 text-[10.5px] leading-snug mt-0.5">{c.desc}</p>
+              <h3 className="font-serif-nes text-nes-cream text-[20px] leading-tight">{c.title}</h3>
+              <p className="text-white/65 text-[12.5px] leading-snug mt-0.5">{c.desc}</p>
             </div>
 
             {c.badge && (
