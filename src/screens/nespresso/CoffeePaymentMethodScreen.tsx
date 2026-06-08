@@ -1,5 +1,5 @@
 import { useApp, PaymentMethod } from '@/context/AppContext';
-import { CreditCard, Ticket, Wallet, ArrowLeft } from 'lucide-react';
+import { CreditCard, Ticket, Wallet, ArrowLeft, ChevronRight, Lock } from 'lucide-react';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
@@ -10,11 +10,17 @@ const CoffeePaymentMethodScreen = () => {
   const isBundle =
     orderType === 'bono_semanal' || orderType === 'bono_mensual' || orderType === 'suscripcion';
 
-  const captionLine =
-    orderType === 'bono_semanal' ? `Bono semanal · 5 cafés · ${fmt(amount)}` :
-    orderType === 'bono_mensual' ? `Bono mensual · 20 cafés · ${fmt(amount)}` :
-    orderType === 'suscripcion'  ? `Plan Desayuno y Sobremesa · ${fmt(amount)} / mes` :
-    `Cappuccino · ${fmt(amount)}`;
+  const title =
+    orderType === 'bono_semanal' ? 'Bono semanal' :
+    orderType === 'bono_mensual' ? 'Bono mensual' :
+    orderType === 'suscripcion'  ? 'Plan Desayuno' :
+    'Cappuccino';
+
+  const subtitle =
+    orderType === 'bono_semanal' ? '5 cafés' :
+    orderType === 'bono_mensual' ? '20 cafés' :
+    orderType === 'suscripcion'  ? 'Mensual' :
+    null;
 
   const pick = (m: PaymentMethod) => () => {
     setPaymentMethod(m);
@@ -23,36 +29,41 @@ const CoffeePaymentMethodScreen = () => {
     else navigate('coffee_coupon_pay');
   };
 
-  type Card = { key: PaymentMethod; icon: React.ReactNode; title: string; desc: React.ReactNode; cta: string };
-  const baseCards: Card[] = [
+  type Card = {
+    key: PaymentMethod;
+    iconBg: string;
+    iconColor: string;
+    icon: React.ReactNode;
+    title: string;
+    desc: React.ReactNode;
+  };
+
+  const cards: Card[] = [
     {
       key: 'normal',
-      icon: <CreditCard className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
-      title: 'PAGO NORMAL',
-      desc: <>Tarjeta, Apple Pay o Google Pay.</>,
-      cta: 'CONTINUAR',
+      iconBg: 'bg-nes-cream',
+      iconColor: 'text-nes-blue-dark',
+      icon: <CreditCard className="w-5 h-5" strokeWidth={1.7} />,
+      title: 'Pago normal',
+      desc: <>Tarjeta, Apple Pay<br />o Google Pay.</>,
     },
     ...(isBundle ? [] : [{
       key: 'coupon' as PaymentMethod,
-      icon: <Ticket className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
-      title: 'CUPONES',
-      desc: <>Canjea un café de tu cupón activo.</>,
-      cta: 'CANJEAR',
+      iconBg: 'bg-nes-blue-dark',
+      iconColor: 'text-nes-cream',
+      icon: <Ticket className="w-5 h-5" strokeWidth={1.7} />,
+      title: 'Cupones',
+      desc: <>Canjea un café<br />de tu cupón activo.</>,
     }]),
     {
       key: 'balance',
-      icon: <Wallet className="w-5 h-5 text-nes-blue-dark" strokeWidth={1.7} />,
-      title: 'SALDO',
-      desc: <>Usa tu saldo y acumula ventajas.</>,
-      cta: 'CONTINUAR',
+      iconBg: 'bg-nes-blue-dark',
+      iconColor: 'text-nes-cream',
+      icon: <Wallet className="w-5 h-5" strokeWidth={1.7} />,
+      title: 'Saldo',
+      desc: <>Usa tu saldo y<br />acumula ventajas.</>,
     },
   ];
-
-  // Gradación azul light → mid → dark según número de tarjetas
-  const bgFor = (i: number, total: number) => {
-    if (total === 2) return i === 0 ? 'bg-nes-blue-light' : 'bg-nes-blue-dark';
-    return ['bg-nes-blue-light', 'bg-nes-blue-mid', 'bg-nes-blue-dark'][i];
-  };
 
   return (
     <div className="screen-enter relative flex-1 overflow-hidden bg-nes-coffee flex flex-col">
@@ -65,35 +76,46 @@ const CoffeePaymentMethodScreen = () => {
         <NespressoLogo className="!text-[15px] !tracking-[0.32em]" />
       </div>
 
-      <div className="relative z-10 text-center mt-2 px-4">
-        <p className="font-serif-nes text-nes-gold-text text-[22px] leading-tight">
-          {captionLine}
+      <div className="relative z-10 text-center mt-3 px-4">
+        <p className="font-serif-nes text-nes-cream text-[26px] leading-none">{title}</p>
+        <p className="font-serif-nes text-nes-blue-light text-[20px] mt-1">
+          {subtitle ? `${subtitle} · ${fmt(amount)}` : fmt(amount)}
         </p>
       </div>
 
-      <p className="relative z-10 text-center text-white text-[11px] tracking-[0.2em] mt-3 mb-2">
-        SELECCIONA TU MÉTODO DE PAGO
+      <div className="relative z-10 mx-6 mt-3 border-t border-white/15" />
+      <p className="relative z-10 text-center text-white text-[10px] tracking-[0.3em] mt-2 mb-3">
+        ELIGE CÓMO PAGAR
       </p>
 
-      <div className="relative z-10 px-3 pb-3 flex flex-col gap-2 flex-1">
-        {baseCards.map((c, i) => (
+      <div className="relative z-10 px-4 flex flex-col gap-2.5 flex-1">
+        {cards.map((c) => (
           <button
             key={c.key}
             onClick={pick(c.key)}
-            className={`rounded-xl ${bgFor(i, baseCards.length)} text-nes-cream p-3 flex flex-col items-center justify-between active:scale-[0.98] transition-transform shadow-lg flex-1`}
+            className="relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 py-3 flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
           >
-            <div className="w-11 h-11 rounded-full bg-nes-cream flex items-center justify-center shadow-inner shrink-0">
+            <div className={`w-11 h-11 rounded-full ${c.iconBg} ${c.iconColor} flex items-center justify-center shrink-0 shadow-inner`}>
               {c.icon}
             </div>
-            <div className="text-center px-2">
-              <h3 className="font-serif-nes text-[15px] font-semibold tracking-[0.12em] leading-tight">{c.title}</h3>
-              <p className="text-[11px] mt-0.5 leading-snug opacity-90">{c.desc}</p>
+            <div className="flex-1 text-left min-w-0">
+              <h3 className="font-serif-nes text-nes-cream text-[17px] leading-tight">{c.title}</h3>
+              <p className="text-white/65 text-[10.5px] leading-snug mt-0.5">{c.desc}</p>
             </div>
-            <span className="inline-flex items-center bg-nes-cream text-nes-blue-dark rounded-full px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em]">
-              {c.cta}
-            </span>
+            <ChevronRight className="w-4 h-4 text-white/55 shrink-0" />
           </button>
         ))}
+      </div>
+
+      <div className="relative z-10 pb-3 pt-2 px-6">
+        <div className="flex items-center gap-2">
+          <div className="flex-1 h-px bg-white/15" />
+          <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center">
+            <Lock className="w-3 h-3 text-white/60" strokeWidth={1.8} />
+          </div>
+          <div className="flex-1 h-px bg-white/15" />
+        </div>
+        <p className="text-center text-white/55 text-[10px] tracking-[0.15em] mt-1.5">Pago 100% seguro</p>
       </div>
     </div>
   );
