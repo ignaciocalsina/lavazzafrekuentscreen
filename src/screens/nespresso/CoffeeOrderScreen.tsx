@@ -1,5 +1,6 @@
 import { useApp, CURRENT_COFFEE_NAME, COFFEE_PRICE } from '@/context/AppContext';
-import { Coffee, Calendar, ChevronRight, Lock } from 'lucide-react';
+import { Coffee, Calendar, ChevronRight } from 'lucide-react';
+import { SecureFooter } from '@/components/NespressoBrand';
 import { FlowBackground, NespressoLogo } from '@/components/NespressoBrand';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',') + ' €';
@@ -71,12 +72,12 @@ const CoffeeOrderScreen = () => {
         ELIGE TU OPCIÓN
       </p>
 
-      <div className="relative z-10 px-4 flex flex-col gap-2.5 flex-1">
+      <div className="relative z-10 px-4 flex flex-col gap-2.5 flex-1 justify-center pb-2">
         {cards.map((c, idx) => (
           <button
             key={idx}
             onClick={c.onClick}
-            className="group relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 py-3 flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
+            className="group relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 h-[84px] flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
           >
             <div className={`w-11 h-11 rounded-full ${c.iconBg} ${c.iconColor} flex items-center justify-center shrink-0 shadow-inner`}>
               {c.icon}
@@ -99,16 +100,7 @@ const CoffeeOrderScreen = () => {
         ))}
       </div>
 
-      <div className="relative z-10 pb-3 pt-2 px-6">
-        <div className="flex items-center gap-2">
-          <div className="flex-1 h-px bg-white/15" />
-          <div className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center">
-            <Lock className="w-3 h-3 text-white/60" strokeWidth={1.8} />
-          </div>
-          <div className="flex-1 h-px bg-white/15" />
-        </div>
-        <p className="text-center text-white/55 text-[10px] tracking-[0.15em] mt-1.5">Pago 100% seguro</p>
-      </div>
+      <SecureFooter className="relative z-10 pb-3 pt-2" />
     </div>
   );
 };
