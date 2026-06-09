@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Monitor } from 'lucide-react';
-import vendingAsset from '@/assets/nespresso-machine.png.asset.json';
+import vendingAsset from '@/assets/lavazza-vending.png.asset.json';
 const vending = vendingAsset.url;
 
 const Soportes = () => {
@@ -18,12 +18,13 @@ const Soportes = () => {
       />
 
       {/* Máquina de vending centrada */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative h-[95%]">
+      <div className="absolute inset-0 flex items-center justify-center p-4">
+        <div className="relative h-full max-h-full flex items-center justify-center">
           <img
             src={vending}
-            alt="Máquina de vending"
-            className="h-full w-auto object-contain drop-shadow-2xl"
+            alt="Máquina de vending Lavazza"
+            className="max-h-full max-w-full w-auto h-auto object-contain drop-shadow-2xl"
+            style={{ maxHeight: '100vh' }}
           />
           {/* CTA "Ver demo" junto a la pasarela de pago Frekuent */}
           <Link
