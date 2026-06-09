@@ -38,7 +38,7 @@ const NespressoAdScreen = () => {
   const { setOrderType, setBundleType, setPurchaseFlow, navigate } = useApp();
 
   useEffect(() => {
-    const id = setInterval(() => setI(v => (v + 1) % SLIDES.length), 5000);
+    const id = setInterval(() => setI(v => (v + 1) % SLIDES.length), 2000);
     return () => clearInterval(id);
   }, []);
 
