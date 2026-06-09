@@ -45,7 +45,7 @@ const CoffeePaymentMethodScreen = () => {
       iconColor: 'text-nes-blue-dark',
       icon: <CreditCard className="w-5 h-5" strokeWidth={1.7} />,
       title: 'Pago normal',
-      desc: <>Tarjeta, Apple Pay<br />o Google Pay.</>,
+      desc: <>Tarjeta, Apple Pay o Google Pay.</>,
     },
     ...(isBundle ? [] : [{
       key: 'coupon' as PaymentMethod,
@@ -53,7 +53,7 @@ const CoffeePaymentMethodScreen = () => {
       iconColor: 'text-nes-cream',
       icon: <Ticket className="w-5 h-5" strokeWidth={1.7} />,
       title: 'Cupones',
-      desc: <>Canjea un café<br />de tu cupón activo.</>,
+      desc: <>Canjea un café de tu cupón activo.</>,
     }]),
     {
       key: 'balance',
@@ -61,7 +61,7 @@ const CoffeePaymentMethodScreen = () => {
       iconColor: 'text-nes-cream',
       icon: <Wallet className="w-5 h-5" strokeWidth={1.7} />,
       title: 'Saldo',
-      desc: <>Usa tu saldo y<br />acumula ventajas.</>,
+      desc: <>Usa tu saldo y acumula ventajas.</>,
     },
   ];
 
@@ -77,14 +77,14 @@ const CoffeePaymentMethodScreen = () => {
       </div>
 
       <div className="relative z-10 text-center mt-3 px-4">
-        <p className="font-serif-nes text-nes-cream text-[26px] leading-none">{title}</p>
-        <p className="font-serif-nes text-nes-blue-light text-[20px] mt-1">
+        <p className="font-serif-nes text-nes-cream text-[31px] leading-none">{title}</p>
+        <p className="font-serif-nes text-nes-blue-light text-[24px] mt-1">
           {subtitle ? `${subtitle} · ${fmt(amount)}` : fmt(amount)}
         </p>
       </div>
 
       <div className="relative z-10 mx-6 mt-3 border-t border-white/15" />
-      <p className="relative z-10 text-center text-white text-[10px] tracking-[0.3em] mt-2 mb-3">
+      <p className="relative z-10 text-center text-white text-[12px] tracking-[0.3em] mt-2 mb-3">
         ELIGE CÓMO PAGAR
       </p>
 
@@ -93,14 +93,14 @@ const CoffeePaymentMethodScreen = () => {
           <button
             key={c.key}
             onClick={pick(c.key)}
-            className="relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 h-[96px] flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
+            className="relative rounded-2xl bg-white/5 border border-white/15 backdrop-blur-md px-3 h-[110px] flex items-center gap-3 active:scale-[0.98] transition-transform shadow-lg"
           >
             <div className={`w-11 h-11 rounded-full ${c.iconBg} ${c.iconColor} flex items-center justify-center shrink-0 shadow-inner`}>
               {c.icon}
             </div>
             <div className="flex-1 text-left min-w-0">
-              <h3 className="font-serif-nes text-nes-cream text-[20px] leading-tight">{c.title}</h3>
-              <p className="text-white/65 text-[12.5px] leading-snug mt-0.5">{c.desc}</p>
+              <h3 className="font-serif-nes text-nes-cream text-[24px] leading-tight">{c.title}</h3>
+              <p className="text-white/65 text-[15px] leading-snug mt-0.5">{c.desc}</p>
             </div>
             <ChevronRight className="w-4 h-4 text-white/55 shrink-0" />
           </button>
