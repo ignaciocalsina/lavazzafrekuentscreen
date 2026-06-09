@@ -26,7 +26,7 @@ const CoffeeBalancePayScreen = () => {
         onClick={() => navigate('coffee_processing')}
         className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-0 text-nes-gold-text nfc-pulse active:scale-95 transition-transform"
       >
-        <ContactlessIcon className="w-52 h-52" />
+        <ContactlessIcon className="w-[250px] h-[250px]" />
         <span className="text-white text-[22px] font-serif-nes tracking-wide leading-none -mt-8 text-center px-6">Acerca tu tarjeta para pagar</span>
       </button>
 
