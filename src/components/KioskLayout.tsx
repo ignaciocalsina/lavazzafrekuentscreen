@@ -35,7 +35,7 @@ const KioskLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           className="absolute inset-[8px] rounded-[32px] border-[3px] pointer-events-none transition-colors duration-500 z-20"
           style={{ borderColor: processing ? 'hsl(145,63%,42%)' : 'white' }}
         />
-        <div className="absolute bottom-[55px] left-[22px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-10" />
+        <div className="absolute top-[52px] right-[60px] w-3 h-3 rounded-full bg-[#2a2a2a] border border-[#1a1a1a]/20 z-30" />
 
         <div className="relative w-[370px] h-[616px] rounded-[20px] overflow-hidden bg-nes-coffee flex flex-col shadow-[inset_0_0_8px_rgba(0,0,0,0.15)]">
           <main className="flex-1 overflow-hidden flex flex-col scrollbar-none">
